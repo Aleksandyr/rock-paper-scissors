@@ -7,6 +7,7 @@ function App() {
     fetch('/test')
       .then((res) => res.json())
       .then((data) => console.log(data));
+    console.log('a lot');
   });
 
   return (

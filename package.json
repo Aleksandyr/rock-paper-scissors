@@ -9,9 +9,11 @@
     "client"
   ],
   "scripts": {
-    "start": "concurrently \"yarn workspace client start\" \"yarn workspace server start\""
+    "start": "concurrently \"yarn workspace client start\" \"yarn workspace server start\"",
+    "format": "prettier --write './**/*.{ts,tsx,css,json}'"
   },
   "devDependencies": {
-    "concurrently": "^7.5.0"
+    "concurrently": "^7.5.0",
+    "prettier": "^2.7.1"
   }
 }
