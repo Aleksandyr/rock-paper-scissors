@@ -1,0 +1,48 @@
+.game-field {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    width: 100%;
+}
+
+.battle__info {
+    align-self: center;
+}
+
+.players {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 3.2rem;
+}
+
+.computer {
+    margin-right: 6.4rem;
+    flex-grow: 2;
+}
+
+.computer, .user__choice {
+    width: 20rem;
+    height: 20rem;
+
+    background-color: lightgray;
+}
+
+.user {
+    display: flex;
+
+    &__actions {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        height: 100%;
+
+        padding-left: 1.6rem;
+    
+        & > * {
+            width: 4rem;
+            height: 4rem;
+        }
+    }
+} 

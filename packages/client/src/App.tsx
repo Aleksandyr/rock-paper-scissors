@@ -4,6 +4,7 @@ import Header from './components/header/Header';
 import AuthForm from './components/authForm/authForm';
 
 import './App.scss';
+import GameField from './components/gameField/GameField';
 
 
 function App() {
@@ -17,7 +18,8 @@ function App() {
     <div className="App">
         <Header />
         <div className="body">
-          <AuthForm />
+          {/* <AuthForm /> */}
+          <GameField />
         </div>
     </div>
   );
