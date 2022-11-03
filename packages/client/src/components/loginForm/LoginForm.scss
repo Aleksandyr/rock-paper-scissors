@@ -1,0 +1,24 @@
+.form {
+    display: flex;
+    flex-direction: column;
+
+    width: 20rem;
+}
+
+.form__inputs {
+    padding-bottom: 2.4rem;
+}
+
+.form__buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    &-login.MuiButton-root{
+        margin-bottom: .8rem;
+    }
+}
+
+.MuiFormControl-root {
+    width: 100%;
+}
