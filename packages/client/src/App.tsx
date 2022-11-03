@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 
 import Header from './components/header/Header';
+import AuthForm from './components/authForm/authForm';
 
 import './App.scss';
-import LoginForm from './components/loginForm/LoginForm';
 
 
 function App() {
@@ -17,7 +17,7 @@ function App() {
     <div className="App">
         <Header />
         <div className="body">
-          <LoginForm />
+          <AuthForm />
         </div>
     </div>
   );
