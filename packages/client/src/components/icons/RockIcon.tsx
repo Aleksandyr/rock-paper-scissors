@@ -1,7 +1,7 @@
 import React from 'react'
 import { SvgIcon, SvgIconProps } from "@mui/material"
 
-const FistIcon = (props: SvgIconProps) => {
+const RockIcon = (props: SvgIconProps) => {
     return (
         <SvgIcon viewBox='0 0 80 80' {...props}>
             <g id="fist">
@@ -12,4 +12,4 @@ const FistIcon = (props: SvgIconProps) => {
     )
 }
 
-export default FistIcon
+export default RockIcon

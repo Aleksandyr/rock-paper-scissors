@@ -1,28 +1,39 @@
 import { IconButton } from '@mui/material';
 import React, { BaseSyntheticEvent, useEffect, useState } from 'react';
 
-import FistIcon from '../icons/FistIcon';
+import RockIcon from '../icons/RockIcon';
 import PaperIcon from '../icons/PaperIcon';
 import ScissorsIcon from '../icons/ScissorsIcon';
 
 import './GameField.scss';
 
 export enum UserChoice {
-    fist = 1,
-    scissors = 2,
-    paper = 3
+    rock = 0,
+    paper = 1,
+    scissors = 2
+}
+
+export enum Winner {
+    tie = 0,
+    user = 1,
+    computer = 2,
+}
+
+export class UserFight {
+
 }
 
 let initialLoad = true;
 
 const GameField = () => {
-    const [userChoice, setUserChoice] = useState(0);
+    const [userChoice, setUserChoice] = useState(-1);
+    const [computerChoice, setComputerChoice] = useState(-1);
     const [secondsCounter, setSecondsCounter] = useState(3);
     const [showEndResult, setShowEndResult] = useState(false);
-    const [computerChoice, setComputerChoice] = useState(0);
+    const [winner, setWinner] = useState(0);
 
     useEffect(() => {
-        if (secondsCounter === 0 && userChoice > 0) {
+        if (secondsCounter === 0 && userChoice >= 0) {
             setShowEndResult(true);
             setComputerChoice(getRandomValue());
         }
@@ -37,28 +48,42 @@ const GameField = () => {
         }, 1000)
 
         return () => clearTimeout(timeoutId);
-    }, [userChoice, secondsCounter])
+    }, [secondsCounter])
+
+    useEffect(() => {
+        if(computerChoice < 0) {
+            return;
+        }
+
+        console.log(computerChoice);
+        whoIsTheWinner();
+    }, [computerChoice])
 
     const onActionClick = (evt: BaseSyntheticEvent) => {
-        setUserChoice(Number(UserChoice[evt.target.id]));
+        setUserChoice(Number(UserChoice[evt.currentTarget.id]));
         setShowEndResult(false);
+        setComputerChoice(-1);
         setSecondsCounter(3);
     }
 
+    const whoIsTheWinner = () => {
+        return setWinner((3 + userChoice - computerChoice) % 3);
+    }
+
     const chooseAction = (choice: number) => {
-        return choice === 1 ? <FistIcon /> : 
+        return choice === 0 ? <RockIcon /> : 
+            choice === 1 ? <PaperIcon /> : 
             choice === 2 ? <ScissorsIcon /> : 
-            choice === 3 ? <PaperIcon /> : 
             null;
     } 
 
     const getRandomValue = () => {
-            return Math.round(Math.random() * (3 - 1) + 1);
+            return Math.floor(Math.random() * 3);
     }
 
     return (
         <div className="game-field">
-            <p className="battle__info">Here is the message, who won/wost {secondsCounter}</p>
+            <p className="battle__info">Here is the message, who wins: {Winner[winner]} {secondsCounter}</p>
             <div className="players">
                 <div className="computer">
                     {showEndResult ? chooseAction(computerChoice) : null}
@@ -68,14 +93,14 @@ const GameField = () => {
                         {showEndResult ? chooseAction(userChoice) : null}
                     </div>
                     <div className="user__actions">
-                        <IconButton color="primary" size='large' onClick={onActionClick} id='fist'>
-                            <FistIcon sx={{ fontSize: 40}} id='fist' />
-                        </IconButton>
-                        <IconButton color="primary" size='large' onClick={onActionClick} id='scissors'>
-                            <ScissorsIcon sx={{ fontSize: 40}} id='scissors' />
+                        <IconButton color="primary" size='large' onClick={onActionClick} id='rock'>
+                            <RockIcon sx={{ fontSize: 40}} id='rock' />
                         </IconButton>
                         <IconButton color="primary" size='large' onClick={onActionClick} id='paper'>
                             <PaperIcon sx={{ fontSize: 40}} id='paper' />
+                        </IconButton>
+                        <IconButton color="primary" size='large' onClick={onActionClick} id='scissors'>
+                            <ScissorsIcon sx={{ fontSize: 40}} id='scissors' />
                         </IconButton>
                     </div>
                 </div>
