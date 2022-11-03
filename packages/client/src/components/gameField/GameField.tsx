@@ -18,12 +18,13 @@ let initialLoad = true;
 const GameField = () => {
     const [userChoice, setUserChoice] = useState(0);
     const [secondsCounter, setSecondsCounter] = useState(3);
-    const [showUserChoice, setShowUserChoice] = useState(false);
+    const [showEndResult, setShowEndResult] = useState(false);
+    const [computerChoice, setComputerChoice] = useState(0);
 
     useEffect(() => {
-        console.log(userChoice);
         if (secondsCounter === 0 && userChoice > 0) {
-            setShowUserChoice(true);
+            setShowEndResult(true);
+            setComputerChoice(getRandomValue());
         }
         
         if(initialLoad || secondsCounter === 0) {
@@ -40,22 +41,31 @@ const GameField = () => {
 
     const onActionClick = (evt: BaseSyntheticEvent) => {
         setUserChoice(Number(UserChoice[evt.target.id]));
-        setShowUserChoice(false);
+        setShowEndResult(false);
         setSecondsCounter(3);
     }
 
-    const userChoiceIcon = userChoice === 1 ? <FistIcon /> : userChoice === 2 ? <ScissorsIcon /> : userChoice === 3 ? <PaperIcon /> : null;
+    const chooseAction = (choice: number) => {
+        return choice === 1 ? <FistIcon /> : 
+            choice === 2 ? <ScissorsIcon /> : 
+            choice === 3 ? <PaperIcon /> : 
+            null;
+    } 
+
+    const getRandomValue = () => {
+            return Math.round(Math.random() * (3 - 1) + 1);
+    }
 
     return (
         <div className="game-field">
             <p className="battle__info">Here is the message, who won/wost {secondsCounter}</p>
             <div className="players">
                 <div className="computer">
-
+                    {showEndResult ? chooseAction(computerChoice) : null}
                 </div>
                 <div className="user">
                     <div className="user__choice">
-                        {showUserChoice ? userChoiceIcon : null}
+                        {showEndResult ? chooseAction(userChoice) : null}
                     </div>
                     <div className="user__actions">
                         <IconButton color="primary" size='large' onClick={onActionClick} id='fist'>
