@@ -1,19 +1,19 @@
 {
-  "name": "rock-paper-scissors",
+  "name": "@rock-paper-scissors/core",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
   "private": true,
   "workspaces": [
-    "server",
-    "client"
+    "packages/*"
   ],
   "scripts": {
-    "start": "concurrently \"yarn workspace client start\" \"yarn workspace server start\"",
+    "start": "concurrently \"yarn workspace @rock-paper-scissors/server start\" \"yarn workspace @rock-paper-scissors/client start\"",
     "format": "prettier --write './**/*.{ts,tsx,css,json}'"
   },
   "devDependencies": {
     "concurrently": "^7.5.0",
     "prettier": "^2.7.1"
-  }
+  },
+  "dependencies": {}
 }

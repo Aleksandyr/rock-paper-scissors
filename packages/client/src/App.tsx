@@ -1,5 +1,8 @@
 import React, { useEffect } from 'react';
-import logo from './logo.svg';
+// import logo from './logo.svg';
+
+import Button from '@mui/material/Button';
+
 import './App.css';
 
 function App() {
@@ -7,13 +10,12 @@ function App() {
     fetch('/test')
       .then((res) => res.json())
       .then((data) => console.log(data));
-    console.log('a lot');
   });
 
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        {/* <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
@@ -24,7 +26,8 @@ function App() {
           rel="noopener noreferrer"
         >
           Learn React
-        </a>
+        </a> */}
+        <Button variant="contained">Hello World</Button>
       </header>
     </div>
   );
