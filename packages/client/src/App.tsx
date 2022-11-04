@@ -6,6 +6,7 @@ import AuthForm from './components/authForm/authForm';
 import './App.scss';
 import GameField from './components/gameField/GameField';
 import { Divider } from '@mui/material';
+import Stats from './components/stats/Stats';
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
           {/* <AuthForm /> */}
           <GameField />
           <Divider className='divider' />
+          <Stats />
         </div>
     </div>
   );
