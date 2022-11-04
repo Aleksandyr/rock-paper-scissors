@@ -8,24 +8,29 @@
 
 .battle__info {
     align-self: center;
+    font-size: 3rem;
 }
 
 .players {
     display: flex;
     justify-content: space-between;
     padding-top: 3.2rem;
+    padding-left: 6.4rem;
 }
 
-.computer {
+.computer--choice {
     margin-right: 6.4rem;
-    flex-grow: 2;
 }
 
-.computer, .user__choice {
+.computer--choice, .user--choice {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 20rem;
     height: 20rem;
 
-    background-color: lightgray;
+    border: 1px solid gray;
+    border-radius: 2rem;
 }
 
 .user {

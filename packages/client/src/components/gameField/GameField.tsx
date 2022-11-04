@@ -28,11 +28,18 @@ let initialLoad = true;
 const GameField = () => {
     const [userChoice, setUserChoice] = useState(-1);
     const [computerChoice, setComputerChoice] = useState(-1);
-    const [secondsCounter, setSecondsCounter] = useState(3);
-    const [showEndResult, setShowEndResult] = useState(false);
     const [winner, setWinner] = useState(0);
+    
+    const [secondsCounter, setSecondsCounter] = useState(3);    
+    const [showEndResult, setShowEndResult] = useState(false);
+    const [message, setMessage] = useState('Make a selection.');
+
 
     useEffect(() => {
+        if (userChoice >= 0) {
+            setMessage(secondsCounter.toString());
+        }
+
         if (secondsCounter === 0 && userChoice >= 0) {
             setShowEndResult(true);
             setComputerChoice(getRandomValue());
@@ -55,7 +62,6 @@ const GameField = () => {
             return;
         }
 
-        console.log(computerChoice);
         whoIsTheWinner();
     }, [computerChoice])
 
@@ -67,13 +73,15 @@ const GameField = () => {
     }
 
     const whoIsTheWinner = () => {
-        return setWinner((3 + userChoice - computerChoice) % 3);
+        const winner = (3 + userChoice - computerChoice) % 3;
+        setMessage(Winner[winner]);
+        return setWinner(winner);
     }
 
     const chooseAction = (choice: number) => {
-        return choice === 0 ? <RockIcon /> : 
-            choice === 1 ? <PaperIcon /> : 
-            choice === 2 ? <ScissorsIcon /> : 
+        return choice === 0 ? <RockIcon sx={{fontSize: 200}} /> : 
+            choice === 1 ? <PaperIcon sx={{fontSize: 200}} /> : 
+            choice === 2 ? <ScissorsIcon sx={{fontSize: 200}} /> : 
             null;
     } 
 
@@ -83,13 +91,13 @@ const GameField = () => {
 
     return (
         <div className="game-field">
-            <p className="battle__info">Here is the message, who wins: {Winner[winner]} {secondsCounter}</p>
+            <p className="battle__info">{message}</p>
             <div className="players">
-                <div className="computer">
+                <div className="computer--choice">
                     {showEndResult ? chooseAction(computerChoice) : null}
                 </div>
                 <div className="user">
-                    <div className="user__choice">
+                    <div className="user--choice">
                         {showEndResult ? chooseAction(userChoice) : null}
                     </div>
                     <div className="user__actions">
