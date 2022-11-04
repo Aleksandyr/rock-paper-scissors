@@ -1,13 +1,25 @@
 import React, { useEffect } from 'react';
+// import { Divider } from '@mui/material';
+
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import Header from './components/header/Header';
 import AuthForm from './components/authForm/authForm';
+import GameField from './components/gameField/GameField';
+// import Stats from './components/stats/Stats';
 
 import './App.scss';
-import GameField from './components/gameField/GameField';
-import { Divider } from '@mui/material';
-import Stats from './components/stats/Stats';
 
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <AuthForm />
+  },
+  {
+    path: '/game',
+    element: <GameField />
+  }
+]);
 
 function App() {
   useEffect(() => {
@@ -21,9 +33,10 @@ function App() {
         <Header />
         <div className="body">
           {/* <AuthForm /> */}
-          <GameField />
+          {/* <GameField />
           <Divider className='divider' />
-          <Stats />
+          <Stats /> */}
+          <RouterProvider router={router}></RouterProvider>
         </div>
     </div>
   );

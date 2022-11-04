@@ -9,6 +9,8 @@
 .battle__info {
     align-self: center;
     font-size: 3rem;
+    margin-top: 3.2rem;
+    margin-bottom: 3.2rem;
 }
 
 .players {
@@ -51,3 +53,8 @@
         }
     }
 } 
+
+.divider {
+    padding-top: 3.2rem;
+    padding-bottom: 3.2rem;
+  }

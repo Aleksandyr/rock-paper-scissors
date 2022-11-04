@@ -1,9 +1,10 @@
-import { IconButton } from '@mui/material';
+import { Divider, IconButton } from '@mui/material';
 import React, { BaseSyntheticEvent, useEffect, useState } from 'react';
 
 import RockIcon from '../icons/RockIcon';
 import PaperIcon from '../icons/PaperIcon';
 import ScissorsIcon from '../icons/ScissorsIcon';
+import Stats from '../stats/Stats';
 
 import './GameField.scss';
 
@@ -90,30 +91,34 @@ const GameField = () => {
     }
 
     return (
-        <div className="game-field">
-            <p className="battle__info">{message}</p>
-            <div className="players">
-                <div className="computer--choice">
-                    {showEndResult ? chooseAction(computerChoice) : null}
-                </div>
-                <div className="user">
-                    <div className="user--choice">
-                        {showEndResult ? chooseAction(userChoice) : null}
+        <>
+            <div className="game-field">
+                <p className="battle__info">{message}</p>
+                <div className="players">
+                    <div className="computer--choice">
+                        {showEndResult ? chooseAction(computerChoice) : null}
                     </div>
-                    <div className="user__actions">
-                        <IconButton color="primary" size='large' onClick={onActionClick} id='rock'>
-                            <RockIcon sx={{ fontSize: 40}} id='rock' />
-                        </IconButton>
-                        <IconButton color="primary" size='large' onClick={onActionClick} id='paper'>
-                            <PaperIcon sx={{ fontSize: 40}} id='paper' />
-                        </IconButton>
-                        <IconButton color="primary" size='large' onClick={onActionClick} id='scissors'>
-                            <ScissorsIcon sx={{ fontSize: 40}} id='scissors' />
-                        </IconButton>
+                    <div className="user">
+                        <div className="user--choice">
+                            {showEndResult ? chooseAction(userChoice) : null}
+                        </div>
+                        <div className="user__actions">
+                            <IconButton color="primary" size='large' onClick={onActionClick} id='rock'>
+                                <RockIcon sx={{ fontSize: 40}} id='rock' />
+                            </IconButton>
+                            <IconButton color="primary" size='large' onClick={onActionClick} id='paper'>
+                                <PaperIcon sx={{ fontSize: 40}} id='paper' />
+                            </IconButton>
+                            <IconButton color="primary" size='large' onClick={onActionClick} id='scissors'>
+                                <ScissorsIcon sx={{ fontSize: 40}} id='scissors' />
+                            </IconButton>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+          <Divider className='divider' />
+          <Stats />
+        </>
     )
 }
 
