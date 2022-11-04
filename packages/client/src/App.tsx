@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react';
-// import { Divider } from '@mui/material';
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import Header from './components/header/Header';
 import AuthForm from './components/authForm/authForm';
 import GameField from './components/gameField/GameField';
-// import Stats from './components/stats/Stats';
 
 import './App.scss';
 
@@ -30,14 +28,10 @@ function App() {
 
   return (
     <div className="App">
-        <Header />
-        <div className="body">
-          {/* <AuthForm /> */}
-          {/* <GameField />
-          <Divider className='divider' />
-          <Stats /> */}
-          <RouterProvider router={router}></RouterProvider>
-        </div>
+      <Header />
+      <div className="body">
+        <RouterProvider router={router}></RouterProvider>
+      </div>
     </div>
   );
 }
