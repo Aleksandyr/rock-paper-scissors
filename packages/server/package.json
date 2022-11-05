@@ -4,12 +4,15 @@
   "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon index.js",
-    "build": "tsc -p ."
+    "build": "tsc -p .",
+    "start": "nodemon index.js"
   },
   "dependencies": {
     "@types/node": "^18.11.9",
     "express": "^4.18.2",
+    "sequelize": "^6.25.3",
+    "sequelize-typescript": "^2.1.5",
+    "sqlite3": "^5.1.2",
     "typescript": "^4.8.4"
   },
   "devDependencies": {
