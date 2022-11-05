@@ -1,5 +1,6 @@
 import express from 'express';
 import db from './db';
+import { SyncDB } from './db/Sync';
 
 const port = 3200;
 
@@ -16,6 +17,9 @@ app.listen(port, () => {
 try {
   db.authenticate();
   console.log('Connection has been established successfully.');
+  SyncDB();
+  console.log('DB was feeded');
 } catch(e) {
   console.log('Unable to connec to db:', e);
 }
+
