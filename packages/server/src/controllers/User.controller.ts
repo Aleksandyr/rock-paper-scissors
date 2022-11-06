@@ -4,7 +4,7 @@ import { Stats, User } from '../db';
 import { withAuth } from "../middleware/passport";
 import { UserInterface } from "../types";
 
-export const currentUserInfo = async (req: Request, res: Response, next: NextFunction) => {
+const currentUserInfo = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const user = await User.findByPk((req?.user as UserInterface)?.id, {include: [Stats] });
         return res.status(200).json(user);
