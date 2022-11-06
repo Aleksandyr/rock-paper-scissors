@@ -21,9 +21,18 @@ const router = createBrowserRouter([
 
 function App() {
   useEffect(() => {
+    fetch('/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({username:'User-1', password: 'Pass-1' })
+    })
+      .then((data) => console.log(data));
+
     // fetch('/test')
     //   .then((res) => res.json())
-    //   .then((data) => console.log(data));
+    //   .then(data => console.log(data));
   });
 
   return (

@@ -1,18 +1,48 @@
+import React, { ChangeEvent, useState } from 'react';
 import { Button, TextField } from '@mui/material';
-import React, { useState } from 'react';
 
 import './authForm.scss';
 
 const AuthForm = () => {
   const [isSignUp, setIsSignUp] = useState(false);
 
+  const [inputValues, setInputValues] = useState({
+    username: '',
+    password: ''
+  });
+
+  const onInputChange = (evt:  ChangeEvent<HTMLInputElement>) => {   
+    setInputValues({
+      ...inputValues,
+      [evt.target.name]: evt.target.value
+    });
+
+    // console.log(inputValues);
+  }
+
   const onSignUpClick = () => {
     setIsSignUp(true);
   };
 
   const onSignInClick = () => {
-    setIsSignUp(false);
+    if (isSignUp) {
+      return setIsSignUp(false);
+    }
+
+    fetch('/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({username: inputValues.username, password: inputValues.password })
+    })
+      .then((data) => console.log(data))
+      .catch(e => {
+        console.log(e);
+      });
   };
+
+  
   return (
     <div className="form-wrapper">
       <form action="" className="form">
@@ -24,6 +54,8 @@ const AuthForm = () => {
             placeholder="Username"
             variant="standard"
             margin="normal"
+            name='username'
+            onChange={onInputChange}
           />
 
           {isSignUp ? (
@@ -34,6 +66,7 @@ const AuthForm = () => {
               placeholder="example@domain.com"
               variant="standard"
               margin="normal"
+              name='email'
             />
           ) : (
             ''
@@ -47,6 +80,8 @@ const AuthForm = () => {
             autoComplete="current-password"
             variant="standard"
             margin="normal"
+            name='password'
+            onChange={onInputChange}
           />
         </div>
 
