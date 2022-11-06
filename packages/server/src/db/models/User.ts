@@ -1,21 +1,16 @@
 import { Optional } from 'sequelize';
 import { Model, Table, Column, DataType, Default, HasOne } from 'sequelize-typescript';
-import { Stats } from './Stats';
+import bcrypt from 'bcrypt';
 
-export interface UserAttributes {
-    id: number;
-    username: string;
-    email: string;
-    password: string
-}
-
-interface UserCreationAttributes extends Optional<UserAttributes, 'id'> {
-    stats?: Optional<Stats, 'id'>;
+import { Stats, StatsAttributes } from './Stats';
+import { UserInterface } from '../../types';
+interface UserCreationAttributes extends Optional<UserInterface, 'id'> {
+    stats?: Optional<StatsAttributes, 'id'>;
     statsId?: number;
 }
 
 @Table
-class User extends Model<UserAttributes, UserCreationAttributes> { 
+class User extends Model<UserInterface, UserCreationAttributes> {
     @Column(DataType.TEXT)
     declare username: string;
 
@@ -27,6 +22,10 @@ class User extends Model<UserAttributes, UserCreationAttributes> {
 
     @HasOne(() => Stats, 'userId')
     declare stats: Stats;
+
+    comparePassword(password: string): boolean {
+        return bcrypt.compareSync(password, this.password);
+    }
 }
 
 export { User };

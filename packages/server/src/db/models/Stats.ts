@@ -1,5 +1,6 @@
 import { Optional } from 'sequelize';
-import { Model, Default, Column, DataType, Table, BelongsTo, ForeignKey } from 'sequelize-typescript';
+import { Model, Default, Column, DataType, Table, BelongsTo, ForeignKey, AllowNull, Unique } from 'sequelize-typescript';
+import { UserInterface } from '../../types';
 
 import { User } from './User';
 
@@ -11,7 +12,7 @@ export interface StatsAttributes {
 }
 
 interface StatsCreationAttributes extends Optional<StatsAttributes, 'id' | 'draws' | 'wins' | 'losses'> { 
-    user?: Optional<User, 'id'>;
+    user?: Optional<UserInterface, 'id'>;
     userId?: number;
 }
 
@@ -30,9 +31,11 @@ class Stats extends Model<StatsAttributes, StatsCreationAttributes> {
     @Column(DataType.NUMBER)
     declare draws: number
 
-    // @ForeignKey(() => User)
-    // @Column(DataType.NUMBER)
-    // declare userId: number;
+    @ForeignKey(() => User)
+    @AllowNull(false)
+    @Unique(true)
+    @Column(DataType.NUMBER)
+    declare userId: number;
 
     @BelongsTo(() => User, 'userId')
     declare user: User;

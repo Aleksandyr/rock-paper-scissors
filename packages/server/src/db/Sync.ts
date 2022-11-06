@@ -1,15 +1,15 @@
-import { truncate } from "fs";
-import db from ".";
-import { Stats } from "./models/Stats";
-// import { Stats } from "./models/Stats";
+import bcrypt from 'bcrypt';
 
+import { db } from ".";
+import { Stats } from "./models/Stats";
 import { User } from "./models/User"
 
 console.log('Sync');
 
-export const SyncDB = async () => {
+(async () => {
     console.log('Sync started!');
-    await db.sync();
+    // await db.sync();
+    await db.sync({force: true});
 
     const userCount = await User.count();
     const statsCount = await Stats.count();
@@ -17,7 +17,7 @@ export const SyncDB = async () => {
     if (userCount == 0 || statsCount === 0) {
         const users = await User.bulkCreate(Array.from(Array(5).keys()).map((id) => ({
             username: `User-${id + 1}`,
-            password: `Pass-${id + 1}`,
+            password: bcrypt.hashSync(`Pass-${id + 1}`, 10),
             email: `email@domain${1}.com`
         })));
     
@@ -27,4 +27,4 @@ export const SyncDB = async () => {
     }
 
     console.log('Sync ended');
-};
+})();
