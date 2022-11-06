@@ -1,3 +1,4 @@
+import { NextFunction, Request, Response } from 'express';
 import passport from 'passport';
 import { Strategy } from "passport-local";
 
@@ -29,4 +30,10 @@ passport.deserializeUser<UserInterface>((user, done) => done(null, user));
 
 passport.use(strategy);
 
-export { passport };
+const withAuth = (req: Request, res: Response, next: NextFunction) => 
+    async (cb: (req: Request, res: Response, next: NextFunction) => any) => {
+        if(!req.isAuthenticated()) return res.status(401).send('You must be logged in to use this endpoint');
+        return await cb(req, res, next);
+    }
+
+export { passport, withAuth };

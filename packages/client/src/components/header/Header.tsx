@@ -4,7 +4,11 @@ import LoginIcon from '../icons/LogoIcon';
 
 import './Header.scss';
 
-const Header = () => {
+export interface IHeaderProps {
+  username: string;
+}
+
+const Header = (props: IHeaderProps) => {
   return (
     <Paper elevation={2}>
       <div className="header">
@@ -12,7 +16,7 @@ const Header = () => {
           <LoginIcon sx={{ fontSize: 70 }}></LoginIcon>
         </div>
         <div className="header__right">
-          <p className="header__username">Username</p>
+          <p className="header__username">{props?.username}</p>
           <Button variant="text">Logout</Button>
         </div>
       </div>

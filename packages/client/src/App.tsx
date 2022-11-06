@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
@@ -20,24 +20,31 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  useEffect(() => {
-    fetch('/auth/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({username:'User-1', password: 'Pass-1' })
-    })
-      .then((data) => console.log(data));
 
-    // fetch('/test')
-    //   .then((res) => res.json())
-    //   .then(data => console.log(data));
-  });
+  const [username, setUsername] = useState('');
+  // useEffect(() => {
+  //   fetch('/auth/login', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify({username:'User-1', password: 'Pass-1' })
+  //   })
+  //     .then((data) => console.log(data));
+  // });
+
+  useEffect(() => {
+
+    fetch('/users/me')
+      .then(response => response.json())
+      .then((data) => setUsername(data.username))
+      .catch((e) => console.log(e));
+
+  })
 
   return (
     <div className="App">
-      <Header />
+      <Header username={username} />
       <div className="body">
         <RouterProvider router={router}></RouterProvider>
       </div>

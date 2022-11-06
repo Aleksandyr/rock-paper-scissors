@@ -3,7 +3,7 @@ import session from 'express-session';
 import morgan from 'morgan';
 
 import { passport } from './middleware';
-import { AuthRouter } from './routes';
+import { AuthRouter, UserRouter } from './routes';
 
 const sessionKey = process.env.SESSION_KEY || '44e257001e5e64b08ece15c828c00bae9de6aaf3';
 
@@ -18,6 +18,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/auth', AuthRouter);
+app.use('/users', UserRouter);
 
 app.get('/test', (req, res) => {
   res.send({ data: 'Hello from the server' });
