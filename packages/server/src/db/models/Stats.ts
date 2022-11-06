@@ -10,7 +10,10 @@ export interface StatsAttributes {
     draws: number;
 }
 
-interface StatsCreationAttributes extends Optional<StatsAttributes, 'id' | 'draws' | 'wins' | 'losses'> { }
+interface StatsCreationAttributes extends Optional<StatsAttributes, 'id' | 'draws' | 'wins' | 'losses'> { 
+    user?: Optional<User, 'id'>;
+    userId?: number;
+}
 
 @Table
 class Stats extends Model<StatsAttributes, StatsCreationAttributes> {
@@ -27,11 +30,11 @@ class Stats extends Model<StatsAttributes, StatsCreationAttributes> {
     @Column(DataType.NUMBER)
     declare draws: number
 
-    @ForeignKey(() => User)
-    @Column(DataType.NUMBER)
-    declare userId: number;
+    // @ForeignKey(() => User)
+    // @Column(DataType.NUMBER)
+    // declare userId: number;
 
-    @BelongsTo(() => User)
+    @BelongsTo(() => User, 'userId')
     declare user: User;
 }
 

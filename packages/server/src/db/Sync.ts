@@ -12,25 +12,19 @@ export const SyncDB = async () => {
     await db.sync();
 
     const userCount = await User.count();
+    const statsCount = await Stats.count();
 
-    if (userCount > 0) {
-        User.destroy({where: {}, truncate: true});
-
-        Stats.destroy({where: {}, truncate: true});
+    if (userCount == 0 || statsCount === 0) {
+        const users = await User.bulkCreate(Array.from(Array(5).keys()).map((id) => ({
+            username: `User-${id + 1}`,
+            password: `Pass-${id + 1}`,
+            email: `email@domain${1}.com`
+        })));
+    
+        const stats = await Stats.bulkCreate(users.map((user) => ({
+            userId: user.id
+        })));
     }
 
-    
-    const user = new User();
-    user.username = 'alex'
-    user.password = 'password'
-    user.email = 'alex@domain.com';
-    user.save();
-    
-    const stats = new Stats();
-    stats.userId = user.id;
-    stats.save();
-
-    
-    // user.stats = new Stats();
     console.log('Sync ended');
 };

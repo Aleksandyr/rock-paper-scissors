@@ -9,7 +9,10 @@ export interface UserAttributes {
     password: string
 }
 
-interface UserCreationAttributes extends Optional<UserAttributes, 'id'> { }
+interface UserCreationAttributes extends Optional<UserAttributes, 'id'> {
+    stats?: Optional<Stats, 'id'>;
+    statsId?: number;
+}
 
 @Table
 class User extends Model<UserAttributes, UserCreationAttributes> { 
@@ -22,7 +25,7 @@ class User extends Model<UserAttributes, UserCreationAttributes> {
     @Column(DataType.TEXT)
     declare password: string;
 
-    @HasOne(() => Stats)
+    @HasOne(() => Stats, 'userId')
     declare stats: Stats;
 }
 
