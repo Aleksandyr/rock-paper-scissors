@@ -2,6 +2,7 @@ import React, { ChangeEvent, useState } from 'react';
 import { Button, TextField } from '@mui/material';
 
 import './authForm.scss';
+import { useNavigate } from 'react-router-dom';
 
 const AuthForm = () => {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -10,6 +11,8 @@ const AuthForm = () => {
     username: '',
     password: ''
   });
+
+  const navigate = useNavigate();
 
   const onInputChange = (evt:  ChangeEvent<HTMLInputElement>) => {   
     setInputValues({
@@ -36,7 +39,12 @@ const AuthForm = () => {
       },
       body: JSON.stringify({username: inputValues.username, password: inputValues.password })
     })
-      .then((data) => console.log(data))
+      .then((response) => {
+        if (response.ok) {
+          navigate('/game');
+        }
+        console.log(response);
+      })
       .catch(e => {
         console.log(e);
       });
