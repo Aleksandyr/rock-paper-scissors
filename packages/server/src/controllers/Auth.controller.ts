@@ -1,48 +1,53 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 
-import { User, db, Stats } from "../db";
-
+import { User, db, Stats } from '../db';
 
 export const register = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const { username, email, password } = req.body;
-  
-      if (!username || username.length < 3 || username.length > 10)
-        return res.status(400).send(`You must provide a username that is between 3 and 10 characters long!`);
-  
-      if (!password || password.length < 6 || password.length > 40)
-        return res.status(400).send(`You must provide a password that is between 6 and 40 characters long!`);
-  
+  try {
+    const { username, email, password } = req.body;
+
+    if (!username || username.length < 3 || username.length > 10)
+      return res
+        .status(400)
+        .send(`You must provide a username that is between 3 and 10 characters long!`);
+
+    if (!password || password.length < 6 || password.length > 40)
+      return res
+        .status(400)
+        .send(`You must provide a password that is between 6 and 40 characters long!`);
+
     //   if (password !== passwordConfirm)
     //     return res.status(400).send(`The passwords that you've provided doesn't match!`);
-  
-      const user = await User.findOne({
-        where: db.Sequelize.where(
-          db.Sequelize.fn('lower', db.Sequelize.col('username')),
-          db.Sequelize.fn('lower', username)
-        )
-      });
-  
-      if (user)
-        return res.status(400).send(`The provided username already exists!`);
-  
-      const hashedPass = bcrypt.hashSync(password, 10);
-      const newUser = await User.create({ username, email, password: hashedPass, stats: { wins: 0, draws: 0, losses: 0 } }, { include: [Stats] });
-      return res.send(newUser);
-    } catch (err) {
-      return next(err);
-    }
-  }
-  
 
-export const logout = async (req: Request, res: Response, next: NextFunction) => req.logout((err) => {
+    const user = await User.findOne({
+      where: db.Sequelize.where(
+        db.Sequelize.fn('lower', db.Sequelize.col('username')),
+        db.Sequelize.fn('lower', username)
+      )
+    });
+
+    if (user) return res.status(400).send(`The provided username already exists!`);
+
+    const hashedPass = bcrypt.hashSync(password, 10);
+    const newUser = await User.create(
+      { username, email, password: hashedPass, stats: { wins: 0, draws: 0, losses: 0 } },
+      { include: [Stats] }
+    );
+    return res.send(newUser);
+  } catch (err) {
+    return next(err);
+  }
+};
+
+export const logout = async (req: Request, res: Response, next: NextFunction) =>
+  req.logout((err) => {
     if (!err) {
-        return res.sendStatus(200);
+      return res.sendStatus(200);
     }
     return next(err);
-});
-export const login = async (req: Request, res: Response, next: NextFunction) => { 
-    console.log(res);
-    res.sendStatus(200)
+  });
+export const login = async (req: Request, res: Response, next: NextFunction) => {
+  console.log(res);
+  res.sendStatus(200);
 };

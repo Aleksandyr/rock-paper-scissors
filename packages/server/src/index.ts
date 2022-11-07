@@ -13,7 +13,7 @@ const app = express();
 
 app.use(morgan('dev'));
 app.use(express.json());
-app.use(session({secret: sessionKey, resave: true, saveUninitialized: true}));
+app.use(session({ secret: sessionKey, resave: true, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -27,4 +27,3 @@ app.get('/test', (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on ${port}`);
 });
-

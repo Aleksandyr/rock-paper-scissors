@@ -5,4 +5,4 @@ const router = express.Router();
 
 router.get('/me', UserController.getMe);
 
-export {router};
+export { router };
