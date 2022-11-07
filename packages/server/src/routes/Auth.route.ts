@@ -7,5 +7,6 @@ const router = express.Router();
 
 router.post('/login', passport.authenticate('local'), AuthController.login);
 router.post('/logout', AuthController.logout);
+router.post('/register', AuthController.register);
 
 export { router };

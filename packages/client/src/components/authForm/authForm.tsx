@@ -3,7 +3,7 @@ import { Button, TextField } from '@mui/material';
 
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../store/hooks';
-import { loginAction } from '../../store/saga/SagsActions';
+import { loginAction, registerAction } from '../../store/saga/SagsActions';
 
 import './authForm.scss';
 
@@ -13,7 +13,8 @@ const AuthForm = () => {
 
   const [inputValues, setInputValues] = useState({
     username: '',
-    password: ''
+    password: '',
+    email: ''
   });
 
   const navigate = useNavigate();
@@ -26,7 +27,17 @@ const AuthForm = () => {
   }
 
   const onSignUpClick = () => {
-    setIsSignUp(true);
+    if (!isSignUp) {
+      return setIsSignUp(true);
+    }
+
+    dispatch(registerAction({
+      username: inputValues.username,
+      password: inputValues.password,
+      email: inputValues.email
+    }));
+
+    navigate('/game');
   };
 
   const onSignInClick = () => {
@@ -63,6 +74,7 @@ const AuthForm = () => {
               variant="standard"
               margin="normal"
               name='email'
+              onChange={onInputChange}
             />
           ) : (
             ''

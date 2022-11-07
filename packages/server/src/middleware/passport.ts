@@ -10,12 +10,12 @@ const strategy = new Strategy(
         try {
             const user = await User.findOne({where: {username}});
             if (!user) {
-                return done(null, null, {message: `No user found with ${username}`});
+                return done(null, user, {message: `No user found with ${username}`});
             }
 
             const isValidPassword = user?.comparePassword(password);
             if(!isValidPassword) {
-                return done(null, null, {message: 'Password you\'ve entered was invalid'});
+                return done(null, user, {message: 'Password you\'ve entered was invalid'});
             }
 
             return done(null, user);

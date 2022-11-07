@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, Route, RouterProvider, Routes } from 'react-router-dom';
 
 import Header from './components/header/Header';
 import AuthForm from './components/authForm/authForm';
 import GameField from './components/gameField/GameField';
+
 
 import './App.scss';
 
@@ -21,22 +22,15 @@ const router = createBrowserRouter([
 
 function App() {
 
-  const [username, setUsername] = useState('');
-
-  useEffect(() => {
-
-    // fetch('/users/me')
-    //   .then(response => response.json())
-    //   .then((data) => setUsername(data.username))
-    //   .catch((e) => console.log(e));
-
-  })
-
   return (
     <div className="App">
       <Header />
       <div className="body">
-        <RouterProvider router={router}></RouterProvider>
+        <Routes>
+          <Route path='/' element={<AuthForm/>} />
+          <Route path='/game' element={<GameField/>} />
+          {/* <RouterProvider router={router}></RouterProvider> */}
+        </Routes>
       </div>
     </div>
   );
