@@ -25,16 +25,16 @@ function App() {
 
   useEffect(() => {
 
-    fetch('/users/me')
-      .then(response => response.json())
-      .then((data) => setUsername(data.username))
-      .catch((e) => console.log(e));
+    // fetch('/users/me')
+    //   .then(response => response.json())
+    //   .then((data) => setUsername(data.username))
+    //   .catch((e) => console.log(e));
 
   })
 
   return (
     <div className="App">
-      <Header username={username} />
+      <Header />
       <div className="body">
         <RouterProvider router={router}></RouterProvider>
       </div>

@@ -1,11 +1,15 @@
 import React, { ChangeEvent, useState } from 'react';
 import { Button, TextField } from '@mui/material';
 
-import './authForm.scss';
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../../store/hooks';
+import { loginAction } from '../../store/saga/SagsActions';
+
+import './authForm.scss';
 
 const AuthForm = () => {
   const [isSignUp, setIsSignUp] = useState(false);
+  const dispatch = useAppDispatch();
 
   const [inputValues, setInputValues] = useState({
     username: '',
@@ -19,8 +23,6 @@ const AuthForm = () => {
       ...inputValues,
       [evt.target.name]: evt.target.value
     });
-
-    // console.log(inputValues);
   }
 
   const onSignUpClick = () => {
@@ -32,22 +34,8 @@ const AuthForm = () => {
       return setIsSignUp(false);
     }
 
-    fetch('/auth/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({username: inputValues.username, password: inputValues.password })
-    })
-      .then((response) => {
-        if (response.ok) {
-          navigate('/game');
-        }
-        console.log(response);
-      })
-      .catch(e => {
-        console.log(e);
-      });
+    dispatch(loginAction({username: inputValues.username, password: inputValues.password}));
+    navigate('/game');
   };
 
   
