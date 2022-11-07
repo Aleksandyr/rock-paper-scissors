@@ -1,12 +1,11 @@
-import { Divider, IconButton } from '@mui/material';
+import { IconButton } from '@mui/material';
 import React, { BaseSyntheticEvent, useEffect, useState } from 'react';
 
-import RockIcon from '../icons/RockIcon';
-import PaperIcon from '../icons/PaperIcon';
-import ScissorsIcon from '../icons/ScissorsIcon';
-import Stats from '../stats/Stats';
+import RockIcon from '../Icons/RockIcon';
+import PaperIcon from '../Icons/PaperIcon';
+import ScissorsIcon from '../Icons/ScissorsIcon';
 
-import './GameField.scss';
+import './BattleField.scss';
 
 export enum UserChoice {
   rock = 0,
@@ -24,7 +23,7 @@ export class UserFight {}
 
 let initialLoad = true;
 
-const GameField = () => {
+const BattleField = () => {
   const [userChoice, setUserChoice] = useState(-1);
   const [computerChoice, setComputerChoice] = useState(-1);
   const [winner, setWinner] = useState(0);
@@ -38,7 +37,7 @@ const GameField = () => {
       setMessage(secondsCounter.toString());
     }
 
-    if (secondsCounter === 0 && userChoice >= 0) {
+    if (userChoice >= 0) {
       setShowEndResult(true);
       setComputerChoice(getRandomValue());
     }
@@ -48,12 +47,12 @@ const GameField = () => {
       return;
     }
 
-    const timeoutId = setTimeout(() => {
-      setSecondsCounter((prev) => (prev -= 1));
-    }, 1000);
+    // const timeoutId = setTimeout(() => {
+    //   setSecondsCounter((prev) => (prev -= 1));
+    // }, 1000);
 
-    return () => clearTimeout(timeoutId);
-  }, [secondsCounter]);
+    // return () => clearTimeout(timeoutId);
+  }, [userChoice]);
 
   useEffect(() => {
     if (computerChoice < 0) {
@@ -78,11 +77,11 @@ const GameField = () => {
 
   const chooseAction = (choice: number) => {
     return choice === 0 ? (
-      <RockIcon sx={{ fontSize: 200 }} />
+      <RockIcon id="rock-icon" sx={{ fontSize: 200 }} />
     ) : choice === 1 ? (
-      <PaperIcon sx={{ fontSize: 200 }} />
+      <PaperIcon id="paper-icon" sx={{ fontSize: 200 }} />
     ) : choice === 2 ? (
-      <ScissorsIcon sx={{ fontSize: 200 }} />
+      <ScissorsIcon id="scissors-icon" sx={{ fontSize: 200 }} />
     ) : null;
   };
 
@@ -101,23 +100,27 @@ const GameField = () => {
           <div className="user">
             <div className="user--choice">{showEndResult ? chooseAction(userChoice) : null}</div>
             <div className="user__actions">
-              <IconButton color="primary" size="large" onClick={onActionClick} id="rock">
-                <RockIcon sx={{ fontSize: 40 }} id="rock" />
+              <IconButton
+                color="primary"
+                size="large"
+                onClick={onActionClick}
+                data-testid="rock"
+                id="rock"
+              >
+                <RockIcon sx={{ fontSize: 40 }} id="rock-icon" />
               </IconButton>
               <IconButton color="primary" size="large" onClick={onActionClick} id="paper">
-                <PaperIcon sx={{ fontSize: 40 }} id="paper" />
+                <PaperIcon sx={{ fontSize: 40 }} id="paper-icon" />
               </IconButton>
               <IconButton color="primary" size="large" onClick={onActionClick} id="scissors">
-                <ScissorsIcon sx={{ fontSize: 40 }} id="scissors" />
+                <ScissorsIcon sx={{ fontSize: 40 }} id="scissors-icon" />
               </IconButton>
             </div>
           </div>
         </div>
       </div>
-      <Divider className="divider" />
-      <Stats />
     </>
   );
 };
 
-export default GameField;
+export default BattleField;

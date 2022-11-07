@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../store/hooks';
 import { loginAction, registerAction } from '../../store/saga/SagsActions';
 
-import './authForm.scss';
+import './AuthForm.scss';
 
 const AuthForm = () => {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -19,23 +19,25 @@ const AuthForm = () => {
 
   const navigate = useNavigate();
 
-  const onInputChange = (evt:  ChangeEvent<HTMLInputElement>) => {   
+  const onInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
     setInputValues({
       ...inputValues,
       [evt.target.name]: evt.target.value
     });
-  }
+  };
 
   const onSignUpClick = () => {
     if (!isSignUp) {
       return setIsSignUp(true);
     }
 
-    dispatch(registerAction({
-      username: inputValues.username,
-      password: inputValues.password,
-      email: inputValues.email
-    }));
+    dispatch(
+      registerAction({
+        username: inputValues.username,
+        password: inputValues.password,
+        email: inputValues.email
+      })
+    );
 
     navigate('/game');
   };
@@ -45,11 +47,35 @@ const AuthForm = () => {
       return setIsSignUp(false);
     }
 
-    dispatch(loginAction({username: inputValues.username, password: inputValues.password}));
+    dispatch(loginAction({ username: inputValues.username, password: inputValues.password }));
     navigate('/game');
   };
 
-  
+  // const testLogin = async () => {
+  //   const response = await fetch('/auth/login', {
+  //     method: 'POST',
+  //     headers: {
+  //       Accept: 'application/json, text/plain, */*',
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify({ username: '', password: '123456' })
+  //   })
+  //     .then((res) => {
+  //       console.log(res);
+  //     })
+  //     .then(
+  //       (result) => {
+  //         console.log(result);
+  //       },
+  //       // Note: it's important to handle errors here
+  //       // instead of a catch() block so that we don't swallow
+  //       // exceptions from actual bugs in components.
+  //       (error) => {
+  //         console.log(error);
+  //       }
+  //     );
+  // };
+
   return (
     <div className="form-wrapper">
       <form action="" className="form">
@@ -61,7 +87,7 @@ const AuthForm = () => {
             placeholder="Username"
             variant="standard"
             margin="normal"
-            name='username'
+            name="username"
             onChange={onInputChange}
           />
 
@@ -73,7 +99,7 @@ const AuthForm = () => {
               placeholder="example@domain.com"
               variant="standard"
               margin="normal"
-              name='email'
+              name="email"
               onChange={onInputChange}
             />
           ) : (
@@ -88,7 +114,7 @@ const AuthForm = () => {
             autoComplete="current-password"
             variant="standard"
             margin="normal"
-            name='password'
+            name="password"
             onChange={onInputChange}
           />
         </div>

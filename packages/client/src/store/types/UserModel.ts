@@ -1,7 +1,7 @@
 interface UserModel {
-    username?: string;
-    password?: string;
-    email?: string; 
+  username?: string;
+  password?: string;
+  email?: string;
 }
 
-export type { UserModel } 
+export type { UserModel };

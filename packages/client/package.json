@@ -5,6 +5,7 @@
   "proxy": "http://localhost:3200",
   "scripts": {
     "start": "react-scripts start",
+    "test:debug": "react-scripts --inspect-brk test --runInBand --no-cache",
     "build": "react-scripts build && eslint \"src/**/*.{ts,tsx}\"",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -53,6 +54,7 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
+    "@types/enzyme-adapter-react-16": "^1.0.6",
     "@types/react-redux": "^7.1.24",
     "@types/redux-saga": "^0.10.5",
     "@typescript-eslint/eslint-plugin": "^5.42.0",

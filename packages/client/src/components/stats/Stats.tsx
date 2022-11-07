@@ -1,6 +1,6 @@
 import React from 'react';
 
-import StatsItem from './statsItem/StatsItem';
+import StatsItem from './StatsItem/StatsItem';
 
 import './Stats.scss';
 
