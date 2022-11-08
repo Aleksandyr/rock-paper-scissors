@@ -19,7 +19,8 @@ export default class Api {
       method: method,
       headers: {
         Accept: 'application/json, text/plain, */*',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        credentials: 'same-origin'
       },
       body: JSON.stringify(body)
     });

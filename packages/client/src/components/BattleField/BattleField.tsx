@@ -1,14 +1,15 @@
 import { IconButton } from '@mui/material';
 import React, { BaseSyntheticEvent, useEffect, useState } from 'react';
 
-import RockIcon from '../Icons/RockIcon';
-import PaperIcon from '../Icons/PaperIcon';
-import ScissorsIcon from '../Icons/ScissorsIcon';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHand, faHandFist, faHandPaper, faHandScissors, faArrowRightArrowLeft 
+  } from '@fortawesome/free-solid-svg-icons';
 
-import './BattleField.scss';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { selectUserStats } from '../../store/slices/UserSlice';
 import { updateStatsAction } from '../../store/saga/SagsActions';
+
+import './BattleField.scss';
 
 export enum UserChoice {
   rock = 0,
@@ -69,13 +70,15 @@ const BattleField = () => {
     setUserChoice(Number(UserChoice[evt.currentTarget.id]));
     setShowEndResult(false);
     setComputerChoice(-1);
+    setWhoWins(0);
     setCounter(1);
     setMessage('');
   };
 
   const whoIsTheWinner = () => {
     const winner = (3 + userChoice - computerChoice) % 3;
-    setMessage(Winner[winner]);
+    const message = winner === 1 ? 'You won' : winner === 2 ? 'You lost' : 'Draws'
+    setMessage(message);
     setWhoWins(winner);
 
     const updatedStats = updateStats(winner);
@@ -102,15 +105,16 @@ const BattleField = () => {
   };
 
   const chooseAction = (choice: number) => {
-    return choice === 0 ? (
-      <RockIcon id="rock-icon" sx={{ fontSize: 200 }} />
+    return choice === 0 ? (  
+        <FontAwesomeIcon className="player--choice" icon={faHandFist} size="10x" color='#1BEFDB' />
     ) : choice === 1 ? (
-      <PaperIcon id="paper-icon" sx={{ fontSize: 200 }} />
+      <FontAwesomeIcon className="player--choice" icon={faHand} size="10x" color='#A7D32B' />
     ) : choice === 2 ? (
-      <ScissorsIcon id="scissors-icon" sx={{ fontSize: 200 }} />
+      <FontAwesomeIcon className="player--choice" icon={faHandScissors} size="10x" color='#EF1B3A' rotation={90} />
     ) : null;
   };
 
+  const youWonClass = whoWins === 1 ? 'win' : whoWins === 2 ? 'lose' : null;
   const getRandomValue = () => {
     return Math.floor(Math.random() * 3);
   };
@@ -118,26 +122,36 @@ const BattleField = () => {
   return (
     <>
       <div className="game-field">
-        <p className="battle__info">{message}</p>
+        <p className={`battle__info ${youWonClass}`}>{message}</p>
         <div className="players">
-          <div className="computer--choice">{showEndResult && chooseAction(computerChoice)}</div>
+          <div className={`computer--choice ${whoWins === 2 ? 'win' : whoWins === 1 ? 'lose' : null}` }>
+              {showEndResult && chooseAction(computerChoice)}
+          </div>
+          <div className='arrows'>
+            <FontAwesomeIcon size="5x" icon={faArrowRightArrowLeft} />
+          </div>
           <div className="user">
-            <div className="user--choice">{showEndResult && chooseAction(userChoice)}</div>
+            <div className={`user--choice ${youWonClass}`}>
+              {showEndResult && chooseAction(userChoice)}
+            </div>
             <div className="user__actions">
               <IconButton
                 color="primary"
                 size="large"
                 onClick={onActionClick}
+                className="icon-button"
                 data-testid="rock"
                 id="rock"
               >
-                <RockIcon sx={{ fontSize: 40 }} id="rock-icon" />
+                <FontAwesomeIcon icon={faHandFist} size="lg" color='#1BEFDB' />
               </IconButton>
-              <IconButton color="primary" size="large" onClick={onActionClick} id="paper">
-                <PaperIcon sx={{ fontSize: 40 }} id="paper-icon" />
+              <IconButton color="primary" size="large" 
+                className="icon-button" onClick={onActionClick} id="paper">
+                <FontAwesomeIcon icon={faHandPaper} size="lg" color='#A7D32B' />
               </IconButton>
-              <IconButton color="primary" size="large" onClick={onActionClick} id="scissors">
-                <ScissorsIcon sx={{ fontSize: 40 }} id="scissors-icon" />
+              <IconButton color="primary" size="large" 
+                className="icon-button" onClick={onActionClick} id="scissors">
+                <FontAwesomeIcon icon={faHandScissors} size="lg" color='#EF1B3A' rotation={90} />
               </IconButton>
             </div>
           </div>

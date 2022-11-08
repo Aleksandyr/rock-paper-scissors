@@ -1,3 +1,8 @@
+:root {
+    --win-color: green;
+    --lose-color: red
+}
+
 .game-field {
     display: flex;
     align-items: center;
@@ -12,6 +17,14 @@
     margin-top: 3.2rem;
     margin-bottom: 3.2rem;
     height: 2rem;
+
+    &.win {
+        color: var(--win-color);
+    }
+
+    &.lose {
+        color: var(--lose-color);
+    }
 }
 
 .players {
@@ -22,7 +35,18 @@
 }
 
 .computer--choice {
-    margin-right: 6.4rem;
+    &.win {
+        border: 3px solid var(--win-color);
+    }
+
+    &.lose {
+        border: 3px solid var(--lose-color);
+    }
+}
+
+.arrows {
+    align-self: center;
+    padding: 2.4rem;
 }
 
 .computer--choice, .user--choice {
@@ -31,26 +55,49 @@
     align-items: center;
     width: 20rem;
     height: 20rem;
-
-    border: 1px solid gray;
+    
+    border: 3px solid gray;
     border-radius: 2rem;
+    transition: all .5s;    
+    
+    // & > * {}
 }
+
+.player-choice {
+    transition: all .5s;    
+    transform: scaleY(1);
+}
+
 
 .user {
     display: flex;
 
+    &--choice {
+        &.win {
+            border: 3px solid var(--win-color);
+        }
+    
+        &.lose {
+            border: 3px solid var(--lose-color);
+        }
+    }
+    
     &__actions {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-
+        
         height: 100%;
-
+        
         padding-left: 1.6rem;
-    
+        
         & > * {
             width: 4rem;
             height: 4rem;
+        }
+        
+        .icon-button {
+            border: 1px solid lightgray;
         }
     }
 } 
