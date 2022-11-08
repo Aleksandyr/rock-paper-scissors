@@ -10,7 +10,7 @@ import { logoutAction } from '../../store/saga/SagsActions';
 import './Header.scss';
 
 const Header = () => {
-  const user = useAppSelector((state) => state.user);
+  const username = useAppSelector((state) => state.user.username);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -26,7 +26,7 @@ const Header = () => {
           <LoginIcon sx={{ fontSize: 70 }}></LoginIcon>
         </div>
         <div className="header__right">
-          <p className="header__username">{user.username}</p>
+          <p className="header__username">{username}</p>
           <Button variant="text" onClick={onLogout}>
             Logout
           </Button>

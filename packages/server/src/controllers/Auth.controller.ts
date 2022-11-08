@@ -10,12 +10,12 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
     if (!username || username.length < 3 || username.length > 10)
       return res
         .status(400)
-        .send(`You must provide a username that is between 3 and 10 characters long!`);
+        .send({success: false, message:`You must provide a username that is between 3 and 10 characters long!`});
 
     if (!password || password.length < 6 || password.length > 40)
       return res
         .status(400)
-        .send(`You must provide a password that is between 6 and 40 characters long!`);
+        .send({success: false, message: `You must provide a password that is between 6 and 40 characters long!`});
 
     //   if (password !== passwordConfirm)
     //     return res.status(400).send(`The passwords that you've provided doesn't match!`);
@@ -27,7 +27,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
       )
     });
 
-    if (user) return res.status(400).send(`The provided username already exists!`);
+    if (user) return res.status(400).send({success: false, message: `The provided username already exists!`});
 
     const hashedPass = bcrypt.hashSync(password, 10);
     const newUser = await User.create(

@@ -1,7 +1,7 @@
-interface UserModel {
+interface IUserModel {
   username?: string;
   password?: string;
   email?: string;
 }
 
-export type { UserModel };
+export type { IUserModel };

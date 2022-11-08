@@ -1,23 +1,25 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { Button, TextField } from '@mui/material';
 
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { loginAction, registerAction } from '../../store/saga/SagsActions';
+import { selectUserErrorMsg } from '../../store/slices/UserSlice';
 
 import './AuthForm.scss';
+
+// let initialLoad = true;
 
 const AuthForm = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const dispatch = useAppDispatch();
+  const userErrorMsg = useAppSelector(selectUserErrorMsg);
 
   const [inputValues, setInputValues] = useState({
     username: '',
     password: '',
     email: ''
   });
-
-  const navigate = useNavigate();
 
   const onInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
     setInputValues({
@@ -38,8 +40,6 @@ const AuthForm = () => {
         email: inputValues.email
       })
     );
-
-    navigate('/game');
   };
 
   const onSignInClick = () => {
@@ -48,36 +48,11 @@ const AuthForm = () => {
     }
 
     dispatch(loginAction({ username: inputValues.username, password: inputValues.password }));
-    navigate('/game');
   };
-
-  // const testLogin = async () => {
-  //   const response = await fetch('/auth/login', {
-  //     method: 'POST',
-  //     headers: {
-  //       Accept: 'application/json, text/plain, */*',
-  //       'Content-Type': 'application/json'
-  //     },
-  //     body: JSON.stringify({ username: '', password: '123456' })
-  //   })
-  //     .then((res) => {
-  //       console.log(res);
-  //     })
-  //     .then(
-  //       (result) => {
-  //         console.log(result);
-  //       },
-  //       // Note: it's important to handle errors here
-  //       // instead of a catch() block so that we don't swallow
-  //       // exceptions from actual bugs in components.
-  //       (error) => {
-  //         console.log(error);
-  //       }
-  //     );
-  // };
 
   return (
     <div className="form-wrapper">
+      <div className='form__message'>{userErrorMsg}</div>
       <form action="" className="form">
         <div className="form__inputs">
           <TextField

@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 
 import Header from './components/Header/Header';
 import Game from './components/Game/Game';
 import AuthForm from './components/AuthForm/AuthForm';
 
 import './App.scss';
+import { useAppSelector } from './store/hooks';
 
 // const router = createBrowserRouter([
 //   {
@@ -20,6 +21,20 @@ import './App.scss';
 // ]);
 
 function App() {
+  const userLoggedIn = useAppSelector(state => {
+    console.log('loggedIn: ', state.user.loggedIn);
+    return state.user.loggedIn;
+  });
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if(userLoggedIn) {
+      navigate('/game')
+    } else {
+      navigate('/');
+    }
+  }, [userLoggedIn])
   return (
     <div className="App">
       <Header />

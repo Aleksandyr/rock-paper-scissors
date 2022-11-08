@@ -1,36 +1,42 @@
 import { Action } from '@reduxjs/toolkit';
 import { put, all, takeEvery, call } from 'redux-saga/effects';
 
-import Api from '../api/Api';
+import Api, { IServerReponse } from '../api/Api';
 import { loginAction, logoutAction, registerAction } from './SagsActions';
-import { login as loginSlice, logout as logoutSlice } from '../slices/UserSlice';
-import { UserModel } from '../types/UserModel';
+import { login as loginSlice, loginError, logout as logoutSlice } from '../slices/UserSlice';
+import { IUserModel } from '../types/IUserModel';
 
 export interface ActionWithPayload<T> extends Action {
   payload: T;
 }
 
-function* login(action: ActionWithPayload<UserModel>) {
+function* login(action: ActionWithPayload<IServerReponse>) {
   try {
-    const loginReponse: Response = yield call([Api, Api.login], action.payload);
-    let getMeResponse: UserModel;
-    if (loginReponse.ok) {
+    const loginReponse: IServerReponse = yield call([Api, Api.login], action.payload);
+    let getMeResponse: IUserModel;
+    if (loginReponse.successfulResopnse) {
       getMeResponse = yield call([Api, Api.getMe]);
-      yield put(loginSlice({ username: getMeResponse.username, email: getMeResponse.email }));
+      yield put(loginSlice({ 
+        username: getMeResponse.username, 
+        email: getMeResponse.email }));
+    } else {
+      yield put(loginError({errorMsg: loginReponse.errorMsg}))
     }
+
   } catch (e) {
     yield console.log(e);
   }
 }
 
-function* register(action: ActionWithPayload<UserModel>) {
+function* register(action: ActionWithPayload<IServerReponse>) {
   try {
-    const registerResponse: Response = yield call([Api, Api.register], action.payload);
-    if (registerResponse.ok) {
+    const registerResponse: IServerReponse = yield call([Api, Api.register], action.payload);
+    if (registerResponse.successfulResopnse) {
       yield login(action);
-      // getMeResponse = yield call([Api, Api.getMe]);
-      // yield put(loginSlice({username: getMeResponse.username, email: getMeResponse.email}));
+    } else {
+      yield put(loginError({errorMsg: registerResponse.errorMsg}));
     }
+    
   } catch (e) {
     yield console.log(e);
   }
@@ -47,6 +53,9 @@ function* logout() {
 
 export default function* rootSaga() {
   yield all([
+    login,
+    register,
+    logout,
     takeEvery(loginAction.type, login),
     takeEvery(logoutAction.type, logout),
     takeEvery(registerAction.type, register)
