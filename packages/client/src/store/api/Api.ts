@@ -1,10 +1,4 @@
-import { ILoginUserModel, IRegisterUserModel } from '../types/IUserModel';
-// export interface IResponse {
-//   loggedIn?: boolean;
-//   message?: string;
-//   status?: number;
-// }
-
+import { ILoginUserModel, IRegisterUserModel, IStats } from '../types/IUserModel';
 export interface IServerReponse extends ILoginUserModel { 
   successfulResponse?: boolean,
   errorMsg?: string;
@@ -17,9 +11,9 @@ export default class Api {
     return await response.json();
   }
 
-  private static async  post(url: string, body: IRegisterUserModel): Promise<IServerReponse> { 
+  private static async post(url: string, body: IRegisterUserModel | IStats, method = 'POST'): Promise<IServerReponse> { 
     const response = await fetch(url, {
-      method: 'POST',
+      method: method,
       headers: {
         Accept: 'application/json, text/plain, */*',
         'Content-Type': 'application/json'
@@ -53,5 +47,9 @@ export default class Api {
 
   static async logout() {
     return await Api.post('/auth/logout', {});
+  }
+
+  static async updateStats(stats: IStats): Promise<IServerReponse> {
+    return await Api.post('/users/stats', stats, 'PUT')
   }
 }

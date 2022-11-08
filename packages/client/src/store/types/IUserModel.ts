@@ -1,6 +1,12 @@
+interface IStats {
+  wins?: number,
+  losses?: number,
+  draws?: number
+}
 interface ILoginUserModel {
   username?: string;
-  email?: string; 
+  email?: string;
+  stats?: IStats
 }
 interface IRegisterUserModel extends ILoginUserModel {
   password?: string;
@@ -8,4 +14,4 @@ interface IRegisterUserModel extends ILoginUserModel {
 }
 
 
-export type { IRegisterUserModel, ILoginUserModel };
+export type { IRegisterUserModel, ILoginUserModel, IStats };
