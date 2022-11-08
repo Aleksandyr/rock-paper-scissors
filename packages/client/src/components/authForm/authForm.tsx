@@ -7,7 +7,6 @@ import { selectUserErrorMsg } from '../../store/slices/UserSlice';
 
 import './AuthForm.scss';
 
-
 const AuthForm = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const dispatch = useAppDispatch();
@@ -52,19 +51,19 @@ const AuthForm = () => {
     dispatch(loginAction({ username: inputValues.username, password: inputValues.password }));
     clearOnSubmit();
   };
-  
+
   const clearOnSubmit = () => {
     setInputValues({
       username: '',
       password: '',
       confirmPassword: '',
       email: ''
-    })
-  }
+    });
+  };
 
   return (
     <div className="form-wrapper">
-      <div className='form__message'>{userErrorMsg}</div>
+      <div className="form__message">{userErrorMsg}</div>
       <form action="" className="form">
         <div className="form__inputs">
           <TextField

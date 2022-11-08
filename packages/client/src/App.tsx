@@ -27,12 +27,12 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if(userLoggedIn) {
-      navigate('/game')
+    if (userLoggedIn) {
+      navigate('/game');
     } else {
       navigate('/');
     }
-  }, [userLoggedIn])
+  }, [userLoggedIn]);
   return (
     <div className="App">
       <Header />

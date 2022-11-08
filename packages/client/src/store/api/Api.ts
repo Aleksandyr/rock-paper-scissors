@@ -1,17 +1,20 @@
 import { ILoginUserModel, IRegisterUserModel, IStats } from '../types/IUserModel';
-export interface IServerReponse extends ILoginUserModel { 
-  successfulResponse?: boolean,
+export interface IServerReponse extends ILoginUserModel {
+  successfulResponse?: boolean;
   errorMsg?: string;
 }
 
 export default class Api {
-
   private static async get(url: string) {
-    const response = await fetch(url)
+    const response = await fetch(url);
     return await response.json();
   }
 
-  private static async post(url: string, body: IRegisterUserModel | IStats, method = 'POST'): Promise<IServerReponse> { 
+  private static async post(
+    url: string,
+    body: IRegisterUserModel | IStats,
+    method = 'POST'
+  ): Promise<IServerReponse> {
     const response = await fetch(url, {
       method: method,
       headers: {
@@ -21,16 +24,14 @@ export default class Api {
       body: JSON.stringify(body)
     });
 
-    const isJson =  response.headers.get('content-type')?.includes('application/json');
+    const isJson = response.headers.get('content-type')?.includes('application/json');
     const data = isJson ? await response.json() : null;
-    if(!response.ok) {
-      const error = response.status === 401 ?
-          'Wrong password or username' :
-          data && data.message;
-        return {successfulResponse: false, errorMsg: error};
+    if (!response.ok) {
+      const error = response.status === 401 ? 'Wrong password or username' : data && data.message;
+      return { successfulResponse: false, errorMsg: error };
     }
 
-    return {...data, successfulResponse: response.ok};
+    return { ...data, successfulResponse: response.ok };
   }
 
   static async login(user: ILoginUserModel): Promise<IServerReponse> {
@@ -50,6 +51,6 @@ export default class Api {
   }
 
   static async updateStats(stats: IStats): Promise<IServerReponse> {
-    return await Api.post('/users/stats', stats, 'PUT')
+    return await Api.post('/users/stats', stats, 'PUT');
   }
 }

@@ -30,7 +30,7 @@ const BattleField = () => {
   const [userChoice, setUserChoice] = useState(-1);
   const [computerChoice, setComputerChoice] = useState(-1);
   const [whoWins, setWhoWins] = useState(0);
-  
+
   const [counter, setCounter] = useState(3);
   const [showEndResult, setShowEndResult] = useState(false);
   const [message, setMessage] = useState('Make a selection.');
@@ -48,7 +48,7 @@ const BattleField = () => {
       setComputerChoice(getRandomValue());
       return;
     }
-    
+
     const timeoutId = setTimeout(() => {
       setCounter((prev) => (prev -= 1));
     }, 1000);
@@ -77,37 +77,37 @@ const BattleField = () => {
     const winner = (3 + userChoice - computerChoice) % 3;
     setMessage(Winner[winner]);
     setWhoWins(winner);
-    
+
     const updatedStats = updateStats(winner);
-    dispatch(updateStatsAction(updatedStats))
+    dispatch(updateStatsAction(updatedStats));
   };
 
   const updateStats = (winner: number) => {
-    const statsCopy = {...userStats};
-    switch(winner) {
-      case 0: 
+    const statsCopy = { ...userStats };
+    switch (winner) {
+      case 0:
         statsCopy['draws'] += 1;
         break;
-      case 1: 
+      case 1:
         statsCopy['wins'] += 1;
         break;
-      case 2: 
+      case 2:
         statsCopy['losses'] += 1;
         break;
       default:
         return statsCopy;
     }
 
-    return statsCopy
-  }
+    return statsCopy;
+  };
 
   const chooseAction = (choice: number) => {
     return choice === 0 ? (
-      <RockIcon id='rock-icon' sx={{ fontSize: 200 }} />
+      <RockIcon id="rock-icon" sx={{ fontSize: 200 }} />
     ) : choice === 1 ? (
-      <PaperIcon id='paper-icon' sx={{ fontSize: 200 }} />
+      <PaperIcon id="paper-icon" sx={{ fontSize: 200 }} />
     ) : choice === 2 ? (
-      <ScissorsIcon id='scissors-icon' sx={{ fontSize: 200 }} />
+      <ScissorsIcon id="scissors-icon" sx={{ fontSize: 200 }} />
     ) : null;
   };
 
@@ -120,13 +120,17 @@ const BattleField = () => {
       <div className="game-field">
         <p className="battle__info">{message}</p>
         <div className="players">
-          <div className="computer--choice">
-            {showEndResult && chooseAction(computerChoice)}
-          </div>
+          <div className="computer--choice">{showEndResult && chooseAction(computerChoice)}</div>
           <div className="user">
             <div className="user--choice">{showEndResult && chooseAction(userChoice)}</div>
             <div className="user__actions">
-              <IconButton color="primary" size="large" onClick={onActionClick} data-testid="rock" id="rock">
+              <IconButton
+                color="primary"
+                size="large"
+                onClick={onActionClick}
+                data-testid="rock"
+                id="rock"
+              >
                 <RockIcon sx={{ fontSize: 40 }} id="rock-icon" />
               </IconButton>
               <IconButton color="primary" size="large" onClick={onActionClick} id="paper">

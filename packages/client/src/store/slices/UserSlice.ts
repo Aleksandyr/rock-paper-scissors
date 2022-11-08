@@ -15,7 +15,7 @@ const initialState: IStore = {
     draws: 0
   },
   errorMsg: null,
-  loggedIn: false,
+  loggedIn: false
 };
 
 export const UserSlice = createSlice({

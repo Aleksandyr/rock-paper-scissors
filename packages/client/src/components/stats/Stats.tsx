@@ -11,7 +11,7 @@ const Stats = () => {
 
   return (
     <div className="stats">
-      <StatsItem text='Wins' statsNum={userStats.wins} />
+      <StatsItem text="Wins" statsNum={userStats.wins} />
       <StatsItem text="Losses" statsNum={userStats.losses} />
       <StatsItem text="Draws" statsNum={userStats.draws} />
     </div>
