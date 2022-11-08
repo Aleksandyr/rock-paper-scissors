@@ -5,9 +5,10 @@ import { Route, Routes, useNavigate } from 'react-router-dom';
 import Header from './components/Header/Header';
 import Game from './components/Game/Game';
 import AuthForm from './components/AuthForm/AuthForm';
+import { useAppSelector } from './store/hooks';
+import { selectUserLoggedIn } from './store/slices/UserSlice';
 
 import './App.scss';
-import { useAppSelector } from './store/hooks';
 
 // const router = createBrowserRouter([
 //   {
@@ -21,10 +22,7 @@ import { useAppSelector } from './store/hooks';
 // ]);
 
 function App() {
-  const userLoggedIn = useAppSelector(state => {
-    console.log('loggedIn: ', state.user.loggedIn);
-    return state.user.loggedIn;
-  });
+  const userLoggedIn = useAppSelector(selectUserLoggedIn);
 
   const navigate = useNavigate();
 

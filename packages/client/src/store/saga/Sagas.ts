@@ -14,7 +14,7 @@ function* login(action: ActionWithPayload<IServerReponse>) {
   try {
     const loginReponse: IServerReponse = yield call([Api, Api.login], action.payload);
     let getMeResponse: IUserModel;
-    if (loginReponse.successfulResopnse) {
+    if (loginReponse.successfulResponse) {
       getMeResponse = yield call([Api, Api.getMe]);
       yield put(loginSlice({ 
         username: getMeResponse.username, 
@@ -31,7 +31,7 @@ function* login(action: ActionWithPayload<IServerReponse>) {
 function* register(action: ActionWithPayload<IServerReponse>) {
   try {
     const registerResponse: IServerReponse = yield call([Api, Api.register], action.payload);
-    if (registerResponse.successfulResopnse) {
+    if (registerResponse.successfulResponse) {
       yield login(action);
     } else {
       yield put(loginError({errorMsg: registerResponse.errorMsg}));
@@ -53,9 +53,6 @@ function* logout() {
 
 export default function* rootSaga() {
   yield all([
-    login,
-    register,
-    logout,
     takeEvery(loginAction.type, login),
     takeEvery(logoutAction.type, logout),
     takeEvery(registerAction.type, register)

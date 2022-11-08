@@ -8,7 +8,6 @@ import { selectUserErrorMsg } from '../../store/slices/UserSlice';
 
 import './AuthForm.scss';
 
-// let initialLoad = true;
 
 const AuthForm = () => {
   const [isSignUp, setIsSignUp] = useState(false);

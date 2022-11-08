@@ -6,40 +6,37 @@ import { IUserModel } from '../types/IUserModel';
 // }
 
 export interface IServerReponse extends IUserModel { 
-  successfulResopnse?: boolean,
+  successfulResponse?: boolean,
   errorMsg?: string;
 }
 
 export default class Api {
-  // private static url = 'http://localhost:3200';
 
   private static async get(url: string) {
-    return await fetch(url).then((response) => response.json());
+    const response = await fetch(url)
+    return await response.json();
   }
 
-  private static async post(url: string, body: IUserModel): Promise<IServerReponse> {
-    return await fetch(url, {
+  private static async  post(url: string, body: IUserModel): Promise<IServerReponse> { 
+    const response = await fetch(url, {
       method: 'POST',
       headers: {
         Accept: 'application/json, text/plain, */*',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(body)
-    }).then(async response => {
-      const isJson = response.headers.get('content-type')?.includes('application/json');
-      const data = isJson ? await response.json() : null;
-  
-      if(!response.ok) {
-        const error = response.status === 401 ?
+    });
+
+    const isJson =  response.headers.get('content-type')?.includes('application/json');
+    const data = isJson ? await response.json() : null;
+    if(!response.ok) {
+      const error = response.status === 401 ?
           'Wrong password or username' :
           data && data.message;
-        return await Promise.reject(error);
-      }
-  
-      return {...data, successfulResopnse: response.ok};
-    }).catch(error => {
-      return {successfulResponse: false, errorMsg: error};
-    });
+        return {successfulResponse: false, errorMsg: error};
+    }
+
+    return {...data, successfulResponse: response.ok};
   }
 
   static async login(user: IUserModel): Promise<IServerReponse> {
