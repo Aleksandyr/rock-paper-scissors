@@ -59,6 +59,5 @@ export const logout = async (req: Request, res: Response, next: NextFunction) =>
     return next(err);
   });
 export const login = (req: Request, res: Response, next: NextFunction) => {
-  console.log(res);
   res.sendStatus(200);
 };

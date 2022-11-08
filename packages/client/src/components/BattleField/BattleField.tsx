@@ -1,5 +1,5 @@
 import { IconButton } from '@mui/material';
-import React, { BaseSyntheticEvent, useCallback, useEffect, useState } from 'react';
+import React, { BaseSyntheticEvent, useEffect, useState } from 'react';
 
 import RockIcon from '../Icons/RockIcon';
 import PaperIcon from '../Icons/PaperIcon';

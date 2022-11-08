@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import passport from 'passport';
 import { Strategy } from 'passport-local';
+import jwt from 'jsonwebtoken';
 
 import { User } from '../db';
 import { UserInterface } from '../types';
@@ -17,6 +18,7 @@ const strategy = new Strategy(async (username, password, done) => {
       return done(null, user, { message: "Password you've entered was invalid" });
     }
 
+    // const token = jwt.sign({foo: 'foo'}, 'asd');
     return done(null, user);
   } catch (err) {
     return done(err);

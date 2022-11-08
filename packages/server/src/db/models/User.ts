@@ -23,9 +23,12 @@ class User extends Model<UserInterface, UserCreationAttributes> {
   @HasOne(() => Stats, 'userId')
   declare stats: Stats;
 
+  declare token: string;
+  
   comparePassword(password: string): boolean {
     return bcrypt.compareSync(password, this.password);
   }
+
 }
 
 export { User };

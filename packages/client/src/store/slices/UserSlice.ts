@@ -46,6 +46,8 @@ export const UserSlice = createSlice({
 
 export const { login, loginError, logout, updateStats } = UserSlice.actions;
 export const selectUser = (state: RootState) => state.user;
+export const selectUsername = (state: RootState) => state.user.username;
+export const selectEmail = (state: RootState) => state.user.email;
 export const selectUserStats = (state: RootState) => state.user.stats;
 export const selectUserLoggedIn = (state: RootState) => state.user.loggedIn;
 export const selectUserErrorMsg = (state: RootState) => state.user.errorMsg;
