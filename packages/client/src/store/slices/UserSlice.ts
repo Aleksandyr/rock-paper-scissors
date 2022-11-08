@@ -9,7 +9,6 @@ interface IStore extends IServerReponse {
 const initialState: IStore = {
   username: undefined,
   email: undefined,
-  password: undefined,
   errorMsg: null,
   loggedIn: false,
 };
@@ -39,9 +38,6 @@ export const UserSlice = createSlice({
 
 export const { login, loginError, logout } = UserSlice.actions;
 export const selectUser = (state: RootState) => state.user;
-export const selectUserLoggedIn = (state: RootState) => {
-  console.log('state.user.loggedIn: ', state.user.loggedIn);
-  return  state.user.loggedIn
-};
+export const selectUserLoggedIn = (state: RootState) => state.user.loggedIn;
 export const selectUserErrorMsg = (state: RootState) => state.user.errorMsg;
 export default UserSlice.reducer;

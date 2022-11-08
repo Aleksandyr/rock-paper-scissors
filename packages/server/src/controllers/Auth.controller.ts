@@ -5,7 +5,7 @@ import { User, db, Stats } from '../db';
 
 export const register = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { username, email, password } = req.body;
+    const { username, email, confirmPassword, password } = req.body;
 
     if (!username || username.length < 3 || username.length > 10)
       return res
@@ -17,8 +17,9 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
         .status(400)
         .send({success: false, message: `You must provide a password that is between 6 and 40 characters long!`});
 
-    //   if (password !== passwordConfirm)
-    //     return res.status(400).send(`The passwords that you've provided doesn't match!`);
+      if (password !== confirmPassword)
+        return res.status(400)
+        .send({success: false, message: `The passwords that you've provided doesn't match!`});
 
     const user = await User.findOne({
       where: db.Sequelize.where(
@@ -47,7 +48,7 @@ export const logout = async (req: Request, res: Response, next: NextFunction) =>
     }
     return next(err);
   });
-export const login = async (req: Request, res: Response, next: NextFunction) => {
+export const login = (req: Request, res: Response, next: NextFunction) => {
   console.log(res);
   res.sendStatus(200);
 };

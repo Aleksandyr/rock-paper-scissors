@@ -4,7 +4,7 @@ import { put, all, takeEvery, call } from 'redux-saga/effects';
 import Api, { IServerReponse } from '../api/Api';
 import { loginAction, logoutAction, registerAction } from './SagsActions';
 import { login as loginSlice, loginError, logout as logoutSlice } from '../slices/UserSlice';
-import { IUserModel } from '../types/IUserModel';
+import { IRegisterUserModel, ILoginUserModel } from '../types/IUserModel';
 
 export interface ActionWithPayload<T> extends Action {
   payload: T;
@@ -13,7 +13,7 @@ export interface ActionWithPayload<T> extends Action {
 function* login(action: ActionWithPayload<IServerReponse>) {
   try {
     const loginReponse: IServerReponse = yield call([Api, Api.login], action.payload);
-    let getMeResponse: IUserModel;
+    let getMeResponse: ILoginUserModel;
     if (loginReponse.successfulResponse) {
       getMeResponse = yield call([Api, Api.getMe]);
       yield put(loginSlice({ 
@@ -28,7 +28,7 @@ function* login(action: ActionWithPayload<IServerReponse>) {
   }
 }
 
-function* register(action: ActionWithPayload<IServerReponse>) {
+function* register(action: ActionWithPayload<IRegisterUserModel>) {
   try {
     const registerResponse: IServerReponse = yield call([Api, Api.register], action.payload);
     if (registerResponse.successfulResponse) {

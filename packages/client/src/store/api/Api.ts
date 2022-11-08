@@ -1,11 +1,11 @@
-import { IUserModel } from '../types/IUserModel';
+import { ILoginUserModel, IRegisterUserModel } from '../types/IUserModel';
 // export interface IResponse {
 //   loggedIn?: boolean;
 //   message?: string;
 //   status?: number;
 // }
 
-export interface IServerReponse extends IUserModel { 
+export interface IServerReponse extends ILoginUserModel { 
   successfulResponse?: boolean,
   errorMsg?: string;
 }
@@ -17,7 +17,7 @@ export default class Api {
     return await response.json();
   }
 
-  private static async  post(url: string, body: IUserModel): Promise<IServerReponse> { 
+  private static async  post(url: string, body: IRegisterUserModel): Promise<IServerReponse> { 
     const response = await fetch(url, {
       method: 'POST',
       headers: {
@@ -39,16 +39,12 @@ export default class Api {
     return {...data, successfulResponse: response.ok};
   }
 
-  static async login(user: IUserModel): Promise<IServerReponse> {
-    return await Api.post(`/auth/login`, { username: user.username, password: user.password });
+  static async login(user: ILoginUserModel): Promise<IServerReponse> {
+    return await Api.post(`/auth/login`, user);
   }
 
-  static async register(user: IUserModel): Promise<IServerReponse> {
-    return await Api.post(`/auth/register`, {
-      username: user.username,
-      email: user.email,
-      password: user.password
-    });
+  static async register(user: IRegisterUserModel): Promise<IServerReponse> {
+    return await Api.post(`/auth/register`, user);
   }
 
   static async getMe() {

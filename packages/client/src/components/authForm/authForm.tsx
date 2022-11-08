@@ -17,6 +17,7 @@ const AuthForm = () => {
   const [inputValues, setInputValues] = useState({
     username: '',
     password: '',
+    confirmPassword: '',
     email: ''
   });
 
@@ -36,9 +37,12 @@ const AuthForm = () => {
       registerAction({
         username: inputValues.username,
         password: inputValues.password,
+        confirmPassword: inputValues.confirmPassword,
         email: inputValues.email
       })
     );
+
+    clearOnSubmit();
   };
 
   const onSignInClick = () => {
@@ -47,7 +51,17 @@ const AuthForm = () => {
     }
 
     dispatch(loginAction({ username: inputValues.username, password: inputValues.password }));
+    clearOnSubmit();
   };
+  
+  const clearOnSubmit = () => {
+    setInputValues({
+      username: '',
+      password: '',
+      confirmPassword: '',
+      email: ''
+    })
+  }
 
   return (
     <div className="form-wrapper">
@@ -62,20 +76,37 @@ const AuthForm = () => {
             variant="standard"
             margin="normal"
             name="username"
+            value={inputValues.username}
             onChange={onInputChange}
           />
 
           {isSignUp ? (
-            <TextField
-              required
-              id="standard-required"
-              label="Email"
-              placeholder="example@domain.com"
-              variant="standard"
-              margin="normal"
-              name="email"
-              onChange={onInputChange}
-            />
+            <>
+              <TextField
+                required
+                id="standard-required"
+                label="Email"
+                placeholder="example@domain.com"
+                variant="standard"
+                margin="normal"
+                name="email"
+                value={inputValues.email}
+                onChange={onInputChange}
+              />
+
+              <TextField
+                required
+                id="standard-password-input"
+                label="confirmPassword"
+                type="password"
+                placeholder="confirm password"
+                variant="standard"
+                margin="normal"
+                name="confirmPassword"
+                value={inputValues.confirmPassword}
+                onChange={onInputChange}
+              />
+            </>
           ) : (
             ''
           )}
@@ -89,6 +120,7 @@ const AuthForm = () => {
             variant="standard"
             margin="normal"
             name="password"
+            value={inputValues.password}
             onChange={onInputChange}
           />
         </div>

@@ -1,7 +1,11 @@
-interface IUserModel {
+interface ILoginUserModel {
   username?: string;
+  email?: string; 
+}
+interface IRegisterUserModel extends ILoginUserModel {
   password?: string;
-  email?: string;
+  confirmPassword?: string;
 }
 
-export type { IUserModel };
+
+export type { IRegisterUserModel, ILoginUserModel };
