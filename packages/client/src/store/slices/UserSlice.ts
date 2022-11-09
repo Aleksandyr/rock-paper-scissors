@@ -35,6 +35,7 @@ export const UserSlice = createSlice({
     },
     logout: (state) => {
       state.username = state.email = state.cookie = undefined;
+      state.stats = {} as IStats;
       state.loggedIn = false;
       state.errorMsg = null;
     },

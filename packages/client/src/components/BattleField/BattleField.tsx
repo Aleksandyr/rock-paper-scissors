@@ -38,11 +38,11 @@ const BattleField = () => {
   const [whoWins, setWhoWins] = useState(-1);
 
   const [counter, setCounter] = useState(-1);
+  const [disableActions, setDisableActions] = useState(false);
 
   const computerTransitionRef = useRef(null);
   const userTransitionRef = useRef(null);
 
-  // const userStats = useAppSelector(selectUserStats);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -68,6 +68,7 @@ const BattleField = () => {
     setMakeMove(false);
     setWhoWins(-1);
     setCounter(1);
+    setDisableActions(true);
 
     setUserMove(Number(UserMove[evt.currentTarget.id]));
     setComputerMove(getRandomValue());
@@ -76,6 +77,7 @@ const BattleField = () => {
   const whoIsTheWinner = () => {
     const winner = (3 + userMove - computerMove) % 3;
     setWhoWins(winner);
+    setDisableActions(false);
 
     const result: IFight = {
       result: winner
@@ -159,6 +161,7 @@ const BattleField = () => {
                 className="icon__button"
                 data-testid="rock"
                 id="rock"
+                disabled={disableActions}
               >
                 <FontAwesomeIcon className="rock__icon" icon={faHandFist} size="lg" />
               </IconButton>
@@ -168,8 +171,9 @@ const BattleField = () => {
                 className="icon__button"
                 onClick={onActionClick}
                 id="paper"
+                disabled={disableActions}
               >
-                <FontAwesomeIcon className="papper__icon" icon={faHandPaper} size="lg" />
+                <FontAwesomeIcon className="paper__icon" icon={faHandPaper} size="lg" />
               </IconButton>
               <IconButton
                 color="primary"
@@ -177,6 +181,7 @@ const BattleField = () => {
                 className="icon__button"
                 onClick={onActionClick}
                 id="scissors"
+                disabled={disableActions}
               >
                 <FontAwesomeIcon
                   className="scissors__icon"

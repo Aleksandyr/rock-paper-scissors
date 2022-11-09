@@ -6,12 +6,14 @@ import { loginAction, registerAction } from '../../store/saga/SagsActions';
 import { selectCookieToken, selectUserErrorMsg } from '../../store/slices/UserSlice';
 
 import './AuthForm.scss';
+import { useNavigate } from 'react-router-dom';
 
 const AuthForm = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const dispatch = useAppDispatch();
   const selectErrorMsg = useAppSelector(selectUserErrorMsg);
   const cookieToken = useAppSelector(selectCookieToken);
+  const navigate = useNavigate();
 
   const [inputValues, setInputValues] = useState({
     username: '',
@@ -23,6 +25,7 @@ const AuthForm = () => {
   useEffect(() => {
     if (cookieToken) {
       localStorage.setItem('token', cookieToken);
+      navigate('/');
     }
   }, [cookieToken])
 
@@ -85,7 +88,6 @@ const AuthForm = () => {
 
   return (
     <div className="form-wrapper">
-      {/* <div className="form__message">{selectErrorMsg}</div> */}
       <form action="" className="form">
         <FormControl error={selectErrorMsg?.length > 0}>
           <FormHelperText>{selectErrorMsg}</FormHelperText>

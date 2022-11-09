@@ -18,7 +18,6 @@ const strategy = new Strategy(async (username, password, done) => {
       return done(null, user, { message: "Password you've entered was invalid" });
     }
 
-    // const token = jwt.sign({foo: 'foo'}, 'asd');
     return done(null, user);
   } catch (err) {
     return done(err);
