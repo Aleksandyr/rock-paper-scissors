@@ -13,6 +13,7 @@ import {
   login as loginSlice,
   loginError,
   logout as logoutSlice,
+  updateCookie,
   updateStats as updatedStatsSlice
 } from '../slices/UserSlice';
 import { IRegisterUserModel, ILoginUserModel, IStats, IFight } from '../types/IUserModel';
@@ -25,6 +26,7 @@ function* login(action: ActionWithPayload<IServerReponse>) {
   try {
     const loginReponse: IServerReponse = yield call([Api, Api.login], action.payload);
     if (loginReponse.successfulResponse) {
+      yield put(updateCookie(loginReponse))
       yield getMe();
     } else {
       yield put(loginError({ errorMsg: loginReponse.errorMsg }));

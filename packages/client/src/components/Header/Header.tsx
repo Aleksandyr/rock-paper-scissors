@@ -6,17 +6,19 @@ import LoginIcon from '../Icons/LogoIcon';
 
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { logoutAction } from '../../store/saga/SagsActions';
+import { selectUsername } from '../../store/slices/UserSlice';
 
 import './Header.scss';
 
 const Header = () => {
-  const username = useAppSelector((state) => state.user.username);
+  const username = useAppSelector(selectUsername);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const onLogout = () => {
     dispatch(logoutAction());
-    navigate('/');
+    navigate('/login');
+    localStorage.removeItem('token');
   };
 
   return (

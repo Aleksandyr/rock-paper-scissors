@@ -19,18 +19,34 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const token = localStorage.getItem('token'); 
     if (initialLoad) {
-      dispatch(getMeAction());
       initialLoad = false;
       return;
     }
 
-    if (userLoggedIn) {
+    if(token) {
+      dispatch(getMeAction());
+    }
+    
+    if (token) {
       navigate('/');
     } else {
       navigate('/login');
     }
   }, [userLoggedIn]);
+
+  // useEffect(() => {
+  //   if(initialLoad) {
+  //     return;
+  //   }
+
+  //   if (userLoggedIn) {
+  //     navigate('/');
+  //   } else {
+  //     navigate('/login');
+  //   }
+  // }, [userLoggedIn])
 
   return (
     <div className="App">

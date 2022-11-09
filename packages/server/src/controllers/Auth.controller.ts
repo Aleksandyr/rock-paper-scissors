@@ -56,5 +56,6 @@ export const logout = async (req: Request, res: Response, next: NextFunction) =>
   });
 
 export const login = (req: Request, res: Response, next: NextFunction) => {
-  res.sendStatus(200);
+  const cookie = req.headers.cookie || '';
+  res.sendStatus(200).setHeader('cookie', cookie);
 };

@@ -1,9 +1,9 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { Button, FormControl, FormHelperText, TextField } from '@mui/material';
 
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { loginAction, registerAction } from '../../store/saga/SagsActions';
-import { selectUserErrorMsg } from '../../store/slices/UserSlice';
+import { selectCookieToken, selectUserErrorMsg } from '../../store/slices/UserSlice';
 
 import './AuthForm.scss';
 
@@ -11,6 +11,7 @@ const AuthForm = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const dispatch = useAppDispatch();
   const selectErrorMsg = useAppSelector(selectUserErrorMsg);
+  const cookieToken = useAppSelector(selectCookieToken);
 
   const [inputValues, setInputValues] = useState({
     username: '',
@@ -18,6 +19,12 @@ const AuthForm = () => {
     confirmPassword: '',
     email: ''
   });
+
+  useEffect(() => {
+    if (cookieToken) {
+      localStorage.setItem('token', cookieToken);
+    }
+  }, [cookieToken])
 
   const onInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
     setInputValues({
@@ -31,7 +38,7 @@ const AuthForm = () => {
       return setIsSignUp(true);
     }
 
-    if (!allFieldsAreField()) {
+    if (!allFieldsAreFilled()) {
       return;
     }
 
@@ -52,7 +59,7 @@ const AuthForm = () => {
       return setIsSignUp(false);
     }
 
-    if (!allFieldsAreField()) {
+    if (!allFieldsAreFilled()) {
       return;
     }
 
@@ -69,7 +76,7 @@ const AuthForm = () => {
     });
   };
 
-  const allFieldsAreField = () => {
+  const allFieldsAreFilled = () => {
     const loginValidation = inputValues.username.length > 0 && inputValues.password.length > 0;
     return !isSignUp
       ? loginValidation

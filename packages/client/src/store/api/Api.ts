@@ -2,6 +2,7 @@ import { IFight, ILoginUserModel, IRegisterUserModel, IStats } from '../types/IU
 export interface IServerReponse extends ILoginUserModel {
   successfulResponse?: boolean;
   errorMsg?: string;
+  cookie?: string;
 }
 
 export default class Api {
@@ -27,8 +28,7 @@ export default class Api {
       method: method,
       headers: {
         Accept: 'application/json, text/plain, */*',
-        'Content-Type': 'application/json',
-        credentials: 'same-origin'
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify(body)
     });
@@ -39,8 +39,12 @@ export default class Api {
       const error = response.status === 401 ? 'Wrong password or username' : data && data.message;
       return { successfulResponse: false, errorMsg: error };
     }
-
-    return { ...data, successfulResponse: response.ok };
+    const cookie = response.headers.get('cookie')?.split('=');
+    let token;
+    if (cookie) {
+      token = cookie[cookie.length - 1];
+    }
+    return { ...data, successfulResponse: response.ok, cookie: token };
   }
 
   static async login(user: ILoginUserModel): Promise<IServerReponse> {
