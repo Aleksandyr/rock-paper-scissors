@@ -2,6 +2,8 @@ import { NextFunction, Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 
 import { User, db, Stats } from '../db';
+import passport from 'passport';
+import { AuthController } from '.';
 
 export const register = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -41,6 +43,8 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
       { username, email, password: hashedPass, stats: { wins: 0, draws: 0, losses: 0 } },
       { include: [Stats] }
     );
+
+    passport.authenticate('local', AuthController.login);
     return res.send(newUser);
   } catch (err) {
     return next(err);
@@ -57,5 +61,5 @@ export const logout = async (req: Request, res: Response, next: NextFunction) =>
 
 export const login = (req: Request, res: Response, next: NextFunction) => {
   const cookie = req.headers.cookie || '';
-  res.sendStatus(200).setHeader('cookie', cookie);
+  res.setHeader('cookie', cookie).sendStatus(200);
 };
