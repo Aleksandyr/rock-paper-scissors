@@ -16,7 +16,7 @@ import {
 import { CSSTransition } from 'react-transition-group';
 
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { updateStatsAction } from '../../store/saga/SagsActions';
+import { moveAction } from '../../store/saga/SagsActions';
 import { IMove } from '../../store/types';
 
 import './BattleField.scss';
@@ -78,7 +78,7 @@ const BattleField = () => {
     const move: IMove = {
       userMove
     };
-    dispatch(updateStatsAction(move));
+    dispatch(moveAction(move));
   };
 
   const chooseAction = (move: number) => {

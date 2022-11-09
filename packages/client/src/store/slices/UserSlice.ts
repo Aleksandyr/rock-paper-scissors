@@ -49,7 +49,7 @@ export const UserSlice = createSlice({
       state.loggedIn = false;
       state.error = null;
     },
-    updateStats: (state, action: PayloadAction<IWinnerResponse>) => {
+    move: (state, action: PayloadAction<IWinnerResponse>) => {
       state.computerMove = action.payload.computerMove
       state.winner = action.payload.winner;
       state.stats = action.payload.stats;
@@ -60,7 +60,7 @@ export const UserSlice = createSlice({
   }
 });
 
-export const { login, errorLog, logout, updateStats, updateCookie } = UserSlice.actions;
+export const { login, errorLog, logout, move, updateCookie } = UserSlice.actions;
 export const selectUser = (state: RootState) => state.user;
 export const selectUsername = (state: RootState) => state.user.username;
 export const selectEmail = (state: RootState) => state.user.email;

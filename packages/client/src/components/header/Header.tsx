@@ -21,10 +21,11 @@ const Header = () => {
       navigate('/login');
     }
   }, [cookie])
-
+  
   const onLogout = () => {
     dispatch(logoutAction());
     localStorage.removeItem('token');
+    navigate('/login');
   };
 
   return (

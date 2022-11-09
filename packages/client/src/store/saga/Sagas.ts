@@ -7,14 +7,14 @@ import {
   loginAction,
   logoutAction,
   registerAction,
-  updateStatsAction
+  moveAction
 } from './SagsActions';
 import {
   login as loginSlice,
   errorLog,
   logout as logoutSlice,
   updateCookie,
-  updateStats as updatedStatsSlice
+  move as moveSlice
 } from '../slices/UserSlice';
 import { IRegisterUser, IMove, ILoginUser } from '../types';
 
@@ -76,10 +76,10 @@ function* logout() {
   }
 }
 
-function* updateStats(action: ActionWithPayload<IMove>) {
+function* move(action: ActionWithPayload<IMove>) {
   try {
-    const stats: IWinnerResponse = yield call([Api, Api.updateStats], action.payload);
-    yield put(updatedStatsSlice(stats));
+    const stats: IWinnerResponse = yield call([Api, Api.move], action.payload);
+    yield put(moveSlice(stats));
   } catch (e) {
     yield console.log(e);
   }
@@ -91,6 +91,6 @@ export default function* rootSaga() {
     takeEvery(logoutAction.type, logout),
     takeEvery(registerAction.type, register),
     takeEvery(getMeAction.type, getMe),
-    takeEvery(updateStatsAction.type, updateStats)
+    takeEvery(moveAction.type, move)
   ]);
 }

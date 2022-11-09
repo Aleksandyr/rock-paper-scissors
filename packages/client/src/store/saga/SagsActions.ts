@@ -10,7 +10,7 @@ const GET_ME = 'GET_ME';
 const loginAction = createAction<ILoginUser>(LOGIN_REQUEST);
 const logoutAction = createAction(LOGOUT_REQUEST);
 const registerAction = createAction<IRegisterUser>(REGISTER_REQUEST);
-const updateStatsAction = createAction<IMove>(UPDATE_STATS);
+const moveAction = createAction<IMove>(UPDATE_STATS);
 const getMeAction = createAction(GET_ME);
 
-export { loginAction, logoutAction, registerAction, updateStatsAction, getMeAction };
+export { loginAction, logoutAction, registerAction, moveAction, getMeAction };

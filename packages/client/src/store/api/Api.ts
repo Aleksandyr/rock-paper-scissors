@@ -87,7 +87,7 @@ export default class Api {
     return Api.post('/auth/logout', null);
   }
 
-  static updateStats(stats: IMove) {
+  static move(stats: IMove) {
     return Api.post('/users/stats', stats, 'PUT');
 
   }
