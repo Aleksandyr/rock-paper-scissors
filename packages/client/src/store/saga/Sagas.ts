@@ -1,7 +1,7 @@
 import { Action } from '@reduxjs/toolkit';
 import { put, all, takeEvery, call } from 'redux-saga/effects';
 
-import Api, { IGetUserResponse, ILogin, IRegisterUserResponse, IServerReponse, ISuccesfulResponse, IWinnerResponse } from '../api/Api';
+import Api, { ICookie, IGetUserResponse, IRegisterUserResponse, IWinnerResponse } from '../api/Api';
 import {
   getMeAction,
   loginAction,
@@ -11,7 +11,7 @@ import {
 } from './SagsActions';
 import {
   login as loginSlice,
-  loginError,
+  errorLog,
   logout as logoutSlice,
   updateCookie,
   updateStats as updatedStatsSlice
@@ -24,22 +24,17 @@ export interface ActionWithPayload<T> extends Action {
 
 function* login(action: ActionWithPayload<ILoginUser>) {
   try {
-    const loginReponse: IServerReponse & ISuccesfulResponse = yield call([Api, Api.login], action.payload);
-    if (loginReponse.success) {
+    const loginReponse: ICookie = yield call([Api, Api.login], action.payload);
       yield put(updateCookie(loginReponse))
       yield getMe();
-    } else {
-      yield put(loginError({ errorMsg: loginReponse.errorMsg }));
-    }
-  } catch (e) {
-    yield console.log(e);
+    } catch (e) {
+    yield put(errorLog({ error: e.toString() }));
   }
 }
 
 function* getMe() {
   try {
-    const getMeResponse: IGetUserResponse & IServerReponse & ISuccesfulResponse = yield call([Api, Api.getMe]);
-    if (getMeResponse.success) {
+    const getMeResponse: IGetUserResponse = yield call([Api, Api.getMe]);
       yield put(
         loginSlice({
           username: getMeResponse.username,
@@ -51,7 +46,6 @@ function* getMe() {
           }
         })
       );
-    }
   } catch (e) {
     yield console.log(e);
   }
@@ -59,9 +53,7 @@ function* getMe() {
 
 function* register(action: ActionWithPayload<IRegisterUser>) {
   try {
-    const registerResponse: IRegisterUserResponse & IServerReponse & ISuccesfulResponse 
-      = yield call([Api, Api.register], action.payload);
-    if (registerResponse.success) {
+    const registerResponse: IRegisterUserResponse = yield call([Api, Api.register], action.payload);
       const loginUser: ActionWithPayload<ILoginUser> = {
         type: '',
         payload: {
@@ -70,11 +62,8 @@ function* register(action: ActionWithPayload<IRegisterUser>) {
         }
       }
       yield login(loginUser);
-    } else {
-      yield put(loginError({ errorMsg: registerResponse.errorMsg }));
-    }
-  } catch (e) {
-    yield console.log(e);
+  } catch (errorMsg) {
+    yield put(errorLog({ error: errorMsg.toString() }));
   }
 }
 

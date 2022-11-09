@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IGetUserResponse, ILogin, IServerReponse, IWinnerResponse } from '../api/Api';
+import { ICookie, IErrorMessage, IGetUserResponse, ILogin, IWinnerResponse } from '../api/Api';
 import { RootState } from '../store';
 import { IStats } from '../types';
-interface IStore extends IServerReponse, ILogin, IWinnerResponse {
+interface IStore extends ILogin, IWinnerResponse, IErrorMessage, ICookie {
   stats: IStats;
   loggedIn: boolean;
 }
@@ -17,7 +17,8 @@ const initialState: IStore = {
   },
   winner: -1,
   computerMove: -1,
-  errorMsg: '',
+  error: '',
+  cookie: '',
   loggedIn: false
 };
 
@@ -34,10 +35,10 @@ export const UserSlice = createSlice({
         draws: action.payload.stats.draws
       }
       state.loggedIn = true;
-      state.errorMsg = null;
+      state.error = null;
     },
-    loginError: (state, action: PayloadAction<IServerReponse>) => {
-      state.errorMsg = action.payload.errorMsg;
+    errorLog: (state, action: PayloadAction<IErrorMessage>) => {
+      state.error = action.payload.error;
       state.loggedIn = false;
     },
     logout: (state) => {
@@ -46,26 +47,26 @@ export const UserSlice = createSlice({
       state.winner = -1;
       state.stats = {} as IStats;
       state.loggedIn = false;
-      state.errorMsg = null;
+      state.error = null;
     },
     updateStats: (state, action: PayloadAction<IWinnerResponse>) => {
       state.computerMove = action.payload.computerMove
       state.winner = action.payload.winner;
       state.stats = action.payload.stats;
     },
-    updateCookie: (state, action: PayloadAction<IServerReponse>) => {
+    updateCookie: (state, action: PayloadAction<ICookie>) => {
       state.cookie = action.payload.cookie;
     },
   }
 });
 
-export const { login, loginError, logout, updateStats, updateCookie } = UserSlice.actions;
+export const { login, errorLog, logout, updateStats, updateCookie } = UserSlice.actions;
 export const selectUser = (state: RootState) => state.user;
 export const selectUsername = (state: RootState) => state.user.username;
 export const selectEmail = (state: RootState) => state.user.email;
 export const selectUserStats = (state: RootState) => state.user.stats;
 export const selectUserLoggedIn = (state: RootState) => state.user.loggedIn;
-export const selectUserErrorMsg = (state: RootState) => state.user.errorMsg;
+export const selectUserErrorMsg = (state: RootState) => state.user.error;
 export const selectCookieToken = (state: RootState) => state.user.cookie;
 export const selectWinner = (state: RootState) => state.user.winner;
 export const selectComputerMove = (state: RootState) => state.user.computerMove;

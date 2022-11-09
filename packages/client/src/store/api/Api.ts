@@ -1,12 +1,11 @@
 import { IMove, ILoginUser, IRegisterUser, IStats, Winner } from '../types';
-export interface IServerReponse {
-  errorMsg: string;
+
+export interface IErrorMessage {
+  error: string;
+}
+export interface ICookie {
   cookie?: string;
 }
-
-export interface ISuccesfulResponse {
-  success: boolean;
-} 
 export interface ILogin {
   username: string;
   email: string
@@ -26,24 +25,24 @@ export interface IWinnerResponse {
   stats: IStats
 }
 export default class Api {
-  private static async get(url: string): Promise<IGetUserResponse | IServerReponse | ISuccesfulResponse> {
+  private static async get(url: string) {
     const response = await fetch(url);
 
     const isJson = response.headers.get('content-type')?.includes('application/json');
     const data = isJson ? await response.json() : null;
     if (!response.ok) {
-      const error = response.status === 401 ? 'Wrong password or username' : data && data.message;
-      return { success: false, errorMsg: error };
+      const error = data && data.message;
+      throw new Error(error)
     }
 
-    return { ...data, success: response.ok };
+    return data;
   }
 
   private static async post(
     url: string,
     body: IRegisterUser | ILoginUser | IMove | null,
     method = 'POST'
-  ): Promise<IServerReponse & ISuccesfulResponse> {
+  ) {
     const response = await fetch(url, {
       method: method,
       headers: {
@@ -53,37 +52,43 @@ export default class Api {
       body: body && JSON.stringify(body)
     });
 
+ 
     const isJson = response.headers.get('content-type')?.includes('application/json');
     const data = isJson ? await response.json() : null;
+
     if (!response.ok) {
       const error = response.status === 401 ? 'Wrong password or username' : data && data.message;
-      return { success: false, errorMsg: error };
+      throw new Error(error);
     }
+    
     const cookie = response.headers.get('cookie')?.split('=');
     let token;
     if (cookie) {
       token = cookie[cookie.length - 1];
+      return {...data, cookie: token};
     }
-    return { ...data, success: response.ok, cookie: token };
+
+    return data;
   }
 
-  static async login(user: ILoginUser): Promise<IServerReponse & ISuccesfulResponse> {
-    return await Api.post(`/auth/login`, user);
+  static login(user: ILoginUser) {
+    return Api.post(`/auth/login`, user);
   }
 
-  static async register(user: IRegisterUser): Promise<IServerReponse> {
-    return await Api.post(`/auth/register`, user);
+  static register(user: IRegisterUser) {
+    return Api.post(`/auth/register`, user);
   }
 
-  static async getMe() {
-    return await Api.get('/users/me');
+  static getMe() {
+    return Api.get('/users/me');
   }
 
-  static async logout() {
-    return await Api.post('/auth/logout', null);
+  static logout() {
+    return Api.post('/auth/logout', null);
   }
 
-  static async updateStats(stats: IMove): Promise<IServerReponse> {
-    return await Api.post('/users/stats', stats, 'PUT');
+  static updateStats(stats: IMove) {
+    return Api.post('/users/stats', stats, 'PUT');
+
   }
 }

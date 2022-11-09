@@ -6,7 +6,7 @@ import LoginIcon from '../Icons/LogoIcon';
 
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { logoutAction } from '../../store/saga/SagsActions';
-import { selectCookieToken, selectUserLoggedIn, selectUsername } from '../../store/slices/UserSlice';
+import { selectCookieToken, selectUsername } from '../../store/slices/UserSlice';
 
 import './Header.scss';
 

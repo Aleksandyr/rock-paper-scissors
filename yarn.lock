@@ -3838,6 +3838,13 @@ connect-history-api-fallback@^2.0.0:
   resolved "https://registry.yarnpkg.com/connect-history-api-fallback/-/connect-history-api-fallback-2.0.0.tgz#647264845251a0daf25b97ce87834cace0f5f1c8"
   integrity sha512-U73+6lQFmfiNPrYbXqr6kZ1i1wiRqXnp2nhMsINseWXO8lDau0LGEffJ8kQi4EjLZympVgRdvqjAgiZ1tgzDDA==
 
+connect-session-sequelize@^7.1.5:
+  version "7.1.5"
+  resolved "https://registry.yarnpkg.com/connect-session-sequelize/-/connect-session-sequelize-7.1.5.tgz#71da220fe1856249f28d07d258acbc581e46be66"
+  integrity sha512-oCHmWlCqhWoq6GGJ9z9PWLk0mrEsIfKlLE4WHUBjRIcSRgUh4OEIDfGY7rfBnlD6clRwwYQfK6+ks0fuTFf6WA==
+  dependencies:
+    debug "^4.1.1"
+
 console-control-strings@^1.0.0, console-control-strings@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/console-control-strings/-/console-control-strings-1.1.0.tgz#3d7cf4464db6446ea644bf4b39507f9851008e8e"

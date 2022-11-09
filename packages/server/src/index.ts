@@ -12,8 +12,8 @@ import { Sequelize } from 'sequelize';
   const SequelizeStore = connSessSeq(session.Store);
   const dbSessions = new Sequelize({ logging: false, dialect: "sqlite", storage: "./session.sqlite" });
 
-  await dbSessions.sync();
   const store = new SequelizeStore({ db: dbSessions });
+  await dbSessions.sync();
 
   const port = 3200;
   const app = express();
@@ -36,4 +36,3 @@ import { Sequelize } from 'sequelize';
     console.log(`Server is running on ${port}`);
   });
 })();
-
