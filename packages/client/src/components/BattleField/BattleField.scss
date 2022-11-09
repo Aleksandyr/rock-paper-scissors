@@ -11,48 +11,21 @@
     width: 100%;
 }
 
-.battle__info {
-    align-self: center;
-    font-size: 3rem;
-    margin-top: 3.2rem;
-    margin-bottom: 3.2rem;
-    height: 2rem;
-    transition: all 1s;
-
-    &-text {
-        &.win {
-            color: var(--win-color);
-            opacity: 1;
-        }
-    
-        &.lose {
-            color: var(--lose-color);
-            opacity: 1;
-        }
-        
-        &.draw {
-            color: var(--lose-color);
-            opacity: 1;    
-        }
-    }
-
-}
-
 .players {
     display: flex;
     justify-content: space-between;
-    padding-top: 3.2rem;
+    padding-top: 4.8rem;
     padding-left: 6.4rem;
 
     transition: all 1s;
 }
 
-.computer--choice {
+.computer--move {
     &.win {
         border: 3px solid var(--win-color);
     }
 
-    &.lose {
+    &.loss {
         border: 3px solid var(--lose-color);
     }
     
@@ -61,12 +34,17 @@
     }
 }
 
-.arrows {
+.result {
     align-self: center;
     padding: 2.4rem;
+    width: 5.2rem;
+    text-align: center;
+    transition: all 1s;
 }
 
-.computer--choice, .user--choice {
+
+
+.computer--move, .user--move {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -76,10 +54,9 @@
     border: 3px solid gray;
     border-radius: 2rem;
     transition: all 1s;    
-    // opacity: 0;
 }
 
-.player-choice {
+.player-move {
     transition: all .5s;    
     transform: scaleY(1);
 }
@@ -88,13 +65,13 @@
 .user {
     display: flex;
 
-    &--choice {
+    &--move {
         &.win {
             border: 3px solid var(--win-color);
             opacity: 1;
         }
     
-        &.lose {
+        &.loss {
             border: 3px solid var(--lose-color);
             opacity: 1;
         }
@@ -128,4 +105,14 @@
 .divider {
     padding-top: 3.2rem;
     padding-bottom: 3.2rem;
-  }
+}
+
+.transition--move-enter {
+    opacity: 0;
+}
+
+.transition--move-enter-active {
+    opacity: 1;
+    transition: opacity 1s;
+}
+

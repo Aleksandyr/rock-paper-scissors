@@ -1,9 +1,11 @@
 import { IconButton } from '@mui/material';
-import React, { BaseSyntheticEvent, useEffect, useState } from 'react';
+import React, { BaseSyntheticEvent, useEffect, useRef, useState } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHand, faHandFist, faHandPaper, faHandScissors, faArrowRightArrowLeft 
+import { faHand, faHandFist, faHandPaper, faHandScissors, faArrowRightArrowLeft, faEquals, faA, faGreaterThan, faLessThan,
   } from '@fortawesome/free-solid-svg-icons';
+
+import { CSSTransition } from 'react-transition-group';
 
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { selectUserStats } from '../../store/slices/UserSlice';
@@ -11,7 +13,7 @@ import { updateStatsAction } from '../../store/saga/SagsActions';
 
 import './BattleField.scss';
 
-export enum UserChoice {
+export enum UserMove {
   rock = 0,
   paper = 1,
   scissors = 2
@@ -28,25 +30,28 @@ export class UserFight {}
 let initialLoad = true;
 
 const BattleField = () => {
-  const [userChoice, setUserChoice] = useState(-1);
-  const [computerChoice, setComputerChoice] = useState(-1);
-  const [whoWins, setWhoWins] = useState(0);
+  const [userMove, setUserMove] = useState(-1);
+  const [computerMove, setComputerMove] = useState(-1);
+  const [makeMove, setMakeMove] = useState(false);
+  const [whoWins, setWhoWins] = useState(-1);
 
-  const [counter, setCounter] = useState(3);
-  const [showEndResult, setShowEndResult] = useState(false);
-  const [message, setMessage] = useState('Make a selection.');
+  const [counter, setCounter] = useState(-1);
+
+  const computerTransitionRef = useRef(null);
+  const userTransitionRef = useRef(null);
 
   const userStats = useAppSelector(selectUserStats);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (initialLoad || userChoice < 0) {
+    if (initialLoad || counter < 0) {
       initialLoad = false;
       return;
     }
 
-    if (counter <= 0) {
-      setComputerChoice(getRandomValue());
+    if (counter === 0) {
+      setMakeMove(true);
+      whoIsTheWinner();
       return;
     }
 
@@ -55,30 +60,19 @@ const BattleField = () => {
     }, 1000);
 
     return () => clearTimeout(timeoutId);
-  }, [userChoice, counter]);
-
-  useEffect(() => {
-    if (computerChoice < 0) {
-      return;
-    }
-
-    whoIsTheWinner();
-    setShowEndResult(true);
-  }, [computerChoice]);
+  }, [counter]);
 
   const onActionClick = (evt: BaseSyntheticEvent) => {
-    setUserChoice(Number(UserChoice[evt.currentTarget.id]));
-    setShowEndResult(false);
-    setComputerChoice(-1);
-    setWhoWins(0);
+    setMakeMove(false);
+    setWhoWins(-1);
     setCounter(1);
-    setMessage('');
+    
+    setUserMove(Number(UserMove[evt.currentTarget.id]));
+    setComputerMove(getRandomValue());
   };
 
   const whoIsTheWinner = () => {
-    const winner = (3 + userChoice - computerChoice) % 3;
-    const message = winner === 1 ? 'You won' : winner === 2 ? 'You lost' : 'Draws'
-    setMessage(message);
+    const winner = (3 + userMove - computerMove) % 3;
     setWhoWins(winner);
 
     const updatedStats = updateStats(winner);
@@ -104,40 +98,67 @@ const BattleField = () => {
     return statsCopy;
   };
 
-  const chooseAction = (choice: number) => {
-    return choice === 0 ? (  
-        <FontAwesomeIcon className="player--choice" icon={faHandFist} size="10x" color='#1BEFDB' />
-    ) : choice === 1 ? (
-      <FontAwesomeIcon className="player--choice" icon={faHand} size="10x" color='#A7D32B' />
-    ) : choice === 2 ? (
-      <FontAwesomeIcon className="player--choice" icon={faHandScissors} size="10x" color='#EF1B3A' rotation={90} />
+  const chooseAction = (move: number) => {
+    if(!makeMove) {
+      return;
+    }
+
+    return move === 0 ? (  
+      <FontAwesomeIcon className="player--move" icon={faHandFist} size="10x" color='#1BEFDB' />
+    ) : move === 1 ? (
+      <FontAwesomeIcon className="player--move" icon={faHand} size="10x" color='#A7D32B' />
+    ) : move === 2 ? (
+      <FontAwesomeIcon className="player--move" icon={faHandScissors} size="10x" color='#EF1B3A' rotation={90} />
     ) : null;
   };
 
-  const youWonClass = whoWins === 1 ? 'win' : whoWins === 2 ? 'lose' : 'draw';
+  const moveResultIcon = () => {
+    switch(whoWins) {
+      case 0:
+        return faEquals
+      case 1:
+        return faLessThan;
+      case 2:
+          return faGreaterThan;
+      default:
+        return faArrowRightArrowLeft;
+    }
+  }
+
+  const userVictoryClasses = whoWins === 1 ? 'win' : whoWins === 2 ? 'loss' : 'draw';
+  const computerVictoryClasses = whoWins === 2 ? 'win' : whoWins === 1 ? 'loss' : 'draw';
   const getRandomValue = () => {
     return Math.floor(Math.random() * 3);
   };
 
+
   return (
     <>
       <div className="game-field">
-        <p className={`battle__info`}>
-          <span className={`battle__info-text ${youWonClass}`}>
-            {message}
-          </span>
-        </p>
         <div className="players">
-          <div className={`computer--choice ${whoWins === 2 ? 'win' : whoWins === 1 ? 'lose' : 'draw'}` }>
-              {showEndResult && chooseAction(computerChoice)}
+          <div className={`computer--move ${computerVictoryClasses}` }>
+            <CSSTransition nodeRef={computerTransitionRef} 
+              in={makeMove} 
+              timeout={2000} 
+              classNames="transition--move">
+                <span ref={computerTransitionRef}>{chooseAction(computerMove)}</span>
+            </CSSTransition>
           </div>
-          <div className='arrows'>
-            <FontAwesomeIcon size="5x" icon={faArrowRightArrowLeft} />
+          
+          <div className='result'>
+            <FontAwesomeIcon className='result__icon' size="5x" icon={moveResultIcon()} />
           </div>
+
           <div className="user">
-            <div className={`user--choice ${youWonClass}`}>
-              {showEndResult && chooseAction(userChoice)}
-            </div>
+              <div className={`user--move ${userVictoryClasses}`}>
+                <CSSTransition 
+                  nodeRef={userTransitionRef} 
+                  in={makeMove} 
+                  timeout={2000} 
+                  classNames="transition--move">
+                  <span ref={userTransitionRef}>{chooseAction(userMove)}</span>
+                </CSSTransition>
+              </div>
             <div className="user__actions">
               <IconButton
                 color="primary"
