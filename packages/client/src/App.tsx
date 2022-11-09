@@ -38,9 +38,6 @@ function App() {
       <div className="body">
         <Routes>
           <Route path="/" element={<Game />} />
-          {/* {
-            } */}
-          {/* userLoggedIn &&  */}
           <Route path="/login" element={<AuthForm />} />
         </Routes>
       </div>
