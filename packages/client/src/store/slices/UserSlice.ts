@@ -41,7 +41,9 @@ export const UserSlice = createSlice({
       state.loggedIn = false;
     },
     logout: (state) => {
-      state.username = state.email = state.cookie = undefined;
+      state.username = state.email = state.cookie = '';
+      state.computerMove = -1;
+      state.winner = -1;
       state.stats = {} as IStats;
       state.loggedIn = false;
       state.errorMsg = null;

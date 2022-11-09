@@ -17,7 +17,6 @@ import { CSSTransition } from 'react-transition-group';
 
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { updateStatsAction } from '../../store/saga/SagsActions';
-// import { getRandomValue } from '../utils/utils';
 import { IMove } from '../../store/types';
 
 import './BattleField.scss';
@@ -33,7 +32,6 @@ let initialLoad = true;
 
 const BattleField = () => {
   const [userMove, setUserMove] = useState(-1);
-  // const [computerMove, setComputerMove] = useState(-1);
   const [makeMove, setMakeMove] = useState(false);
   
   const [counter, setCounter] = useState(-1);
