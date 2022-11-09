@@ -31,7 +31,7 @@ const AuthForm = () => {
       return setIsSignUp(true);
     }
 
-    if(!allFieldsAreField()) {
+    if (!allFieldsAreField()) {
       return;
     }
 
@@ -51,8 +51,8 @@ const AuthForm = () => {
     if (isSignUp) {
       return setIsSignUp(false);
     }
- 
-    if(!allFieldsAreField()) {
+
+    if (!allFieldsAreField()) {
       return;
     }
 
@@ -70,17 +70,18 @@ const AuthForm = () => {
   };
 
   const allFieldsAreField = () => {
-    const loginValidation = inputValues.username.length > 0 && inputValues.password.length > 0 ;
-    return !isSignUp ? loginValidation :
-      loginValidation && inputValues.confirmPassword.length > 0  && inputValues.email.length > 0;
-  }
+    const loginValidation = inputValues.username.length > 0 && inputValues.password.length > 0;
+    return !isSignUp
+      ? loginValidation
+      : loginValidation && inputValues.confirmPassword.length > 0 && inputValues.email.length > 0;
+  };
 
   return (
     <div className="form-wrapper">
       {/* <div className="form__message">{selectErrorMsg}</div> */}
       <form action="" className="form">
         <FormControl error={selectErrorMsg?.length > 0}>
-        <FormHelperText>{selectErrorMsg}</FormHelperText>
+          <FormHelperText>{selectErrorMsg}</FormHelperText>
           <div className="form__inputs">
             <TextField
               required

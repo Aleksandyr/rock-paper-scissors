@@ -8,20 +8,16 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
     const { username, email, confirmPassword, password } = req.body;
 
     if (!username || username.length < 3 || username.length > 10)
-      return res
-        .status(400)
-        .send({
-          success: false,
-          message: `You must provide a username that is between 3 and 10 characters long!`
-        });
+      return res.status(400).send({
+        success: false,
+        message: `You must provide a username that is between 3 and 10 characters long!`
+      });
 
     if (!password || password.length < 6 || password.length > 40)
-      return res
-        .status(400)
-        .send({
-          success: false,
-          message: `You must provide a password that is between 6 and 40 characters long!`
-        });
+      return res.status(400).send({
+        success: false,
+        message: `You must provide a password that is between 6 and 40 characters long!`
+      });
 
     if (password !== confirmPassword)
       return res
@@ -58,6 +54,7 @@ export const logout = async (req: Request, res: Response, next: NextFunction) =>
     }
     return next(err);
   });
+
 export const login = (req: Request, res: Response, next: NextFunction) => {
   res.sendStatus(200);
 };

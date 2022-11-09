@@ -1,3 +1,13 @@
+enum UserResult {
+  draw,
+  win,
+  loss
+}
+
+interface IFight {
+  result: UserResult;
+}
+
 interface IStats {
   wins?: number;
   losses?: number;
@@ -13,4 +23,4 @@ interface IRegisterUserModel extends ILoginUserModel {
   confirmPassword?: string;
 }
 
-export type { IRegisterUserModel, ILoginUserModel, IStats };
+export type { IRegisterUserModel, ILoginUserModel, IStats, IFight, UserResult };

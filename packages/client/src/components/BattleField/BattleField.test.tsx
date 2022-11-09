@@ -27,9 +27,9 @@ describe('BattleField', () => {
   test('should make a move when click on btn action', async () => {
     await userEvent.click(screen.getByTestId('rock'));
     const userChoice = container.getElementsByClassName('user--choice').item(0);
-    
+
     act(() => {
-      jest.runAllTimers()
+      jest.runAllTimers();
     });
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment

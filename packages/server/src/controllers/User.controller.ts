@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import { stat } from 'fs';
 
 import { Stats, User } from '../db';
 import { withAuth } from '../middleware/passport';
@@ -11,9 +12,25 @@ export const updateUserStats = async (req: Request, res: Response, next: NextFun
     next
   )(async (req, res, next) => {
     try {
-      const { wins, losses, draws } = req.body;
+      const { result } = req.body;
       const user = await User.findByPk((req?.user as UserInterface)?.id, { include: [Stats] });
-      const updatedStats = await user?.stats.update({ wins, losses, draws });
+      const stats = user?.stats;
+
+      switch (result) {
+        case 0:
+          await stats?.increment('draws');
+          break;
+        case 1:
+          await stats?.increment('wins');
+          break;
+        case 2:
+          await stats?.increment('losses');
+          break;
+        default:
+          break;
+      }
+
+      const updatedStats = await Stats?.findByPk(user?.stats.id);
       res.send(updatedStats);
     } catch (e) {
       return next(e);

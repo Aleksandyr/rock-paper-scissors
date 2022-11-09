@@ -1,6 +1,10 @@
 :root {
     --win-color: green;
-    --lose-color: red
+    --lose-color: red;
+
+    --rock__icon-color: #1BEFDB;
+    --paper__icon-color: #A7D32B;
+    --scissors__icon-color: #EF1B3A;
 }
 
 .game-field {
@@ -56,9 +60,16 @@
     transition: all 1s;    
 }
 
-.player-move {
-    transition: all .5s;    
-    transform: scaleY(1);
+.rock__icon {
+    color: var(--rock__icon-color);
+}
+
+.paper__icon {
+    color: var(--paper__icon-color);
+}
+
+.scissors__icon {
+    color: var(--scissors__icon-color)
 }
 
 
@@ -96,7 +107,7 @@
             height: 4rem;
         }
         
-        .icon-button {
+        .icon__button {
             border: 1px solid lightgray;
         }
     }

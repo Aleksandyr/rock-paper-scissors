@@ -2,8 +2,17 @@ import { IconButton } from '@mui/material';
 import React, { BaseSyntheticEvent, useEffect, useRef, useState } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHand, faHandFist, faHandPaper, faHandScissors, faArrowRightArrowLeft, faEquals, faA, faGreaterThan, faLessThan,
-  } from '@fortawesome/free-solid-svg-icons';
+import {
+  faHand,
+  faHandFist,
+  faHandPaper,
+  faHandScissors,
+  faArrowRightArrowLeft,
+  faEquals,
+  faA,
+  faGreaterThan,
+  faLessThan
+} from '@fortawesome/free-solid-svg-icons';
 
 import { CSSTransition } from 'react-transition-group';
 
@@ -12,20 +21,13 @@ import { selectUserStats } from '../../store/slices/UserSlice';
 import { updateStatsAction } from '../../store/saga/SagsActions';
 
 import './BattleField.scss';
+import { IFight } from '../../store/types/IUserModel';
 
 export enum UserMove {
   rock = 0,
   paper = 1,
   scissors = 2
 }
-
-export enum Winner {
-  draw,
-  user,
-  computer
-}
-
-export class UserFight {}
 
 let initialLoad = true;
 
@@ -40,7 +42,7 @@ const BattleField = () => {
   const computerTransitionRef = useRef(null);
   const userTransitionRef = useRef(null);
 
-  const userStats = useAppSelector(selectUserStats);
+  // const userStats = useAppSelector(selectUserStats);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -66,7 +68,7 @@ const BattleField = () => {
     setMakeMove(false);
     setWhoWins(-1);
     setCounter(1);
-    
+
     setUserMove(Number(UserMove[evt.currentTarget.id]));
     setComputerMove(getRandomValue());
   };
@@ -75,55 +77,43 @@ const BattleField = () => {
     const winner = (3 + userMove - computerMove) % 3;
     setWhoWins(winner);
 
-    const updatedStats = updateStats(winner);
-    dispatch(updateStatsAction(updatedStats));
-  };
-
-  const updateStats = (winner: number) => {
-    const statsCopy = { ...userStats };
-    switch (winner) {
-      case 0:
-        statsCopy['draws'] += 1;
-        break;
-      case 1:
-        statsCopy['wins'] += 1;
-        break;
-      case 2:
-        statsCopy['losses'] += 1;
-        break;
-      default:
-        return statsCopy;
-    }
-
-    return statsCopy;
+    const result: IFight = {
+      result: winner
+    };
+    dispatch(updateStatsAction(result));
   };
 
   const chooseAction = (move: number) => {
-    if(!makeMove) {
+    if (!makeMove) {
       return;
     }
 
-    return move === 0 ? (  
-      <FontAwesomeIcon className="player--move" icon={faHandFist} size="10x" color='#1BEFDB' />
+    return move === 0 ? (
+      <FontAwesomeIcon className="player--move rock__icon" icon={faHandFist} size="10x" />
     ) : move === 1 ? (
-      <FontAwesomeIcon className="player--move" icon={faHand} size="10x" color='#A7D32B' />
+      <FontAwesomeIcon className="player--move paper__icon" icon={faHand} size="10x" />
     ) : move === 2 ? (
-      <FontAwesomeIcon className="player--move" icon={faHandScissors} size="10x" color='#EF1B3A' rotation={90} />
+      <FontAwesomeIcon
+        className="player--move scissors__icon"
+        icon={faHandScissors}
+        size="10x"
+        rotation={90}
+      />
     ) : null;
   };
 
   const moveResultIcon = () => {
-    switch(whoWins) {
+    switch (whoWins) {
       case 0:
-        return faEquals
+        return faEquals;
       case 1:
         return faLessThan;
       case 2:
-          return faGreaterThan;
+        return faGreaterThan;
       default:
         return faArrowRightArrowLeft;
     }
-  }
+  };
 
   const userVictoryClasses = whoWins === 1 ? 'win' : whoWins === 2 ? 'loss' : 'draw';
   const computerVictoryClasses = whoWins === 2 ? 'win' : whoWins === 1 ? 'loss' : 'draw';
@@ -131,52 +121,69 @@ const BattleField = () => {
     return Math.floor(Math.random() * 3);
   };
 
-
   return (
     <>
       <div className="game-field">
         <div className="players">
-          <div className={`computer--move ${computerVictoryClasses}` }>
-            <CSSTransition nodeRef={computerTransitionRef} 
-              in={makeMove} 
-              timeout={2000} 
-              classNames="transition--move">
-                <span ref={computerTransitionRef}>{chooseAction(computerMove)}</span>
+          <div className={`computer--move ${computerVictoryClasses}`}>
+            <CSSTransition
+              nodeRef={computerTransitionRef}
+              in={makeMove}
+              timeout={2000}
+              classNames="transition--move"
+            >
+              <span ref={computerTransitionRef}>{chooseAction(computerMove)}</span>
             </CSSTransition>
           </div>
-          
-          <div className='result'>
-            <FontAwesomeIcon className='result__icon' size="5x" icon={moveResultIcon()} />
+
+          <div className="result">
+            <FontAwesomeIcon className="result__icon" size="5x" icon={moveResultIcon()} />
           </div>
 
           <div className="user">
-              <div className={`user--move ${userVictoryClasses}`}>
-                <CSSTransition 
-                  nodeRef={userTransitionRef} 
-                  in={makeMove} 
-                  timeout={2000} 
-                  classNames="transition--move">
-                  <span ref={userTransitionRef}>{chooseAction(userMove)}</span>
-                </CSSTransition>
-              </div>
+            <div className={`user--move ${userVictoryClasses}`}>
+              <CSSTransition
+                nodeRef={userTransitionRef}
+                in={makeMove}
+                timeout={2000}
+                classNames="transition--move"
+              >
+                <span ref={userTransitionRef}>{chooseAction(userMove)}</span>
+              </CSSTransition>
+            </div>
             <div className="user__actions">
               <IconButton
                 color="primary"
                 size="large"
                 onClick={onActionClick}
-                className="icon-button"
+                className="icon__button"
                 data-testid="rock"
                 id="rock"
               >
-                <FontAwesomeIcon icon={faHandFist} size="lg" color='#1BEFDB' />
+                <FontAwesomeIcon className="rock__icon" icon={faHandFist} size="lg" />
               </IconButton>
-              <IconButton color="primary" size="large" 
-                className="icon-button" onClick={onActionClick} id="paper">
-                <FontAwesomeIcon icon={faHandPaper} size="lg" color='#A7D32B' />
+              <IconButton
+                color="primary"
+                size="large"
+                className="icon__button"
+                onClick={onActionClick}
+                id="paper"
+              >
+                <FontAwesomeIcon className="papper__icon" icon={faHandPaper} size="lg" />
               </IconButton>
-              <IconButton color="primary" size="large" 
-                className="icon-button" onClick={onActionClick} id="scissors">
-                <FontAwesomeIcon icon={faHandScissors} size="lg" color='#EF1B3A' rotation={90} />
+              <IconButton
+                color="primary"
+                size="large"
+                className="icon__button"
+                onClick={onActionClick}
+                id="scissors"
+              >
+                <FontAwesomeIcon
+                  className="scissors__icon"
+                  icon={faHandScissors}
+                  size="lg"
+                  rotation={90}
+                />
               </IconButton>
             </div>
           </div>
