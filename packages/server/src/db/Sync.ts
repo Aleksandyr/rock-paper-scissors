@@ -8,8 +8,8 @@ console.log('Sync');
 
 (async () => {
   console.log('Sync started!');
-  await db.sync();
-  // await db.sync({ force: true });
+  // await db.sync();
+  await db.sync({ force: true });
 
   const userCount = await User.count();
   const statsCount = await Stats.count();
@@ -23,11 +23,7 @@ console.log('Sync');
       }))
     );
 
-    const stats = await Stats.bulkCreate(
-      users.map((user) => ({
-        userId: user.id
-      }))
-    );
+    const stats = await Stats.bulkCreate(users.map((user) => ({ userId: user.id })));
   }
 
   console.log('Sync ended');

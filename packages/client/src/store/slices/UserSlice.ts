@@ -1,20 +1,23 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IServerReponse } from '../api/Api';
+import { IGetUserResponse, ILogin, IServerReponse, IWinnerResponse } from '../api/Api';
 import { RootState } from '../store';
-import { IStats } from '../types/IUserModel';
-interface IStore extends IServerReponse {
+import { IStats } from '../types';
+interface IStore extends IServerReponse, ILogin, IWinnerResponse {
+  stats: IStats;
   loggedIn: boolean;
 }
 
 const initialState: IStore = {
-  username: undefined,
-  email: undefined,
+  username: '',
+  email: '',
   stats: {
     wins: 0,
     losses: 0,
     draws: 0
   },
-  errorMsg: null,
+  winner: -1,
+  computerMove: -1,
+  errorMsg: '',
   loggedIn: false
 };
 
@@ -22,10 +25,14 @@ export const UserSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    login: (state, action: PayloadAction<IServerReponse>) => {
+    login: (state, action: PayloadAction<IGetUserResponse>) => {
       state.username = action.payload.username;
       state.email = action.payload.email;
-      state.stats = action.payload.stats;
+      state.stats = {
+        wins: action.payload.stats.wins,
+        losses: action.payload.stats.losses,
+        draws: action.payload.stats.draws
+      }
       state.loggedIn = true;
       state.errorMsg = null;
     },
@@ -39,8 +46,10 @@ export const UserSlice = createSlice({
       state.loggedIn = false;
       state.errorMsg = null;
     },
-    updateStats: (state, action: PayloadAction<IStats>) => {
-      state.stats = action.payload;
+    updateStats: (state, action: PayloadAction<IWinnerResponse>) => {
+      state.computerMove = action.payload.computerMove
+      state.winner = action.payload.winner;
+      state.stats = action.payload.stats;
     },
     updateCookie: (state, action: PayloadAction<IServerReponse>) => {
       state.cookie = action.payload.cookie;
@@ -56,4 +65,6 @@ export const selectUserStats = (state: RootState) => state.user.stats;
 export const selectUserLoggedIn = (state: RootState) => state.user.loggedIn;
 export const selectUserErrorMsg = (state: RootState) => state.user.errorMsg;
 export const selectCookieToken = (state: RootState) => state.user.cookie;
+export const selectWinner = (state: RootState) => state.user.winner;
+export const selectComputerMove = (state: RootState) => state.user.computerMove;
 export default UserSlice.reducer;

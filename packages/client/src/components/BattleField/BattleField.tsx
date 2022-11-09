@@ -15,12 +15,13 @@ import {
 
 import { CSSTransition } from 'react-transition-group';
 
-import { useAppDispatch } from '../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { updateStatsAction } from '../../store/saga/SagsActions';
-import { getRandomValue } from '../utils/utils';
-import { IFight } from '../../store/types/IUserModel';
+// import { getRandomValue } from '../utils/utils';
+import { IMove } from '../../store/types';
 
 import './BattleField.scss';
+import { selectComputerMove, selectWinner } from '../../store/slices/UserSlice';
 
 export enum UserMove {
   rock = 0,
@@ -32,15 +33,17 @@ let initialLoad = true;
 
 const BattleField = () => {
   const [userMove, setUserMove] = useState(-1);
-  const [computerMove, setComputerMove] = useState(-1);
+  // const [computerMove, setComputerMove] = useState(-1);
   const [makeMove, setMakeMove] = useState(false);
-  const [whoWins, setWhoWins] = useState(-1);
-
+  
   const [counter, setCounter] = useState(-1);
   const [disableActions, setDisableActions] = useState(false);
-
+  
   const computerTransitionRef = useRef(null);
   const userTransitionRef = useRef(null);
+
+  const winner = useAppSelector(selectWinner);
+  const computerMove = useAppSelector(selectComputerMove);
 
   const dispatch = useAppDispatch();
 
@@ -65,23 +68,19 @@ const BattleField = () => {
 
   const onActionClick = (evt: BaseSyntheticEvent) => {
     setMakeMove(false);
-    setWhoWins(-1);
     setCounter(1);
     setDisableActions(true);
 
     setUserMove(Number(UserMove[evt.currentTarget.id]));
-    setComputerMove(getRandomValue());
   };
 
   const whoIsTheWinner = () => {
-    const winner = (3 + userMove - computerMove) % 3;
-    setWhoWins(winner);
     setDisableActions(false);
 
-    const result: IFight = {
-      result: winner
+    const move: IMove = {
+      userMove
     };
-    dispatch(updateStatsAction(result));
+    dispatch(updateStatsAction(move));
   };
 
   const chooseAction = (move: number) => {
@@ -104,7 +103,7 @@ const BattleField = () => {
   };
 
   const moveResultIcon = () => {
-    switch (whoWins) {
+    switch (winner) {
       case 0:
         return faEquals;
       case 1:
@@ -116,8 +115,8 @@ const BattleField = () => {
     }
   };
 
-  const userVictoryClasses = whoWins === 1 ? 'win' : whoWins === 2 ? 'loss' : 'draw';
-  const computerVictoryClasses = whoWins === 2 ? 'win' : whoWins === 1 ? 'loss' : 'draw';
+  const userVictoryClasses = winner === 1 ? 'win' : winner === 2 ? 'loss' : 'draw';
+  const computerVictoryClasses = winner === 2 ? 'win' : winner === 1 ? 'loss' : 'draw';
 
   return (
     <>

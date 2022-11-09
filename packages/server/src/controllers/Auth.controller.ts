@@ -44,7 +44,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
       { include: [Stats] }
     );
 
-    passport.authenticate('local', AuthController.login);
+    // passport.authenticate('local', AuthController.login);
     return res.send(newUser);
   } catch (err) {
     return next(err);

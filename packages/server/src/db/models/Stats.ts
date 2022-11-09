@@ -10,7 +10,6 @@ import {
   AllowNull,
   Unique
 } from 'sequelize-typescript';
-import { UserInterface } from '../../types';
 
 import { User } from './User';
 
@@ -21,14 +20,12 @@ export interface StatsAttributes {
   draws: number;
 }
 
-interface StatsCreationAttributes
-  extends Optional<StatsAttributes, 'id' | 'draws' | 'wins' | 'losses'> {
-  user?: Optional<UserInterface, 'id'>;
+interface StatsCreationAttributes extends Optional<StatsAttributes, 'id' | 'draws' | 'wins' | 'losses'> {
   userId?: number;
 }
 
 @Table
-class Stats extends Model<StatsAttributes, StatsCreationAttributes> {
+class Stats extends Model<Stats, StatsCreationAttributes> {
   @Default(0)
   @Column(DataType.NUMBER)
   declare wins: number;

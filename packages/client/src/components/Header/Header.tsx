@@ -17,8 +17,8 @@ const Header = () => {
 
   const onLogout = () => {
     dispatch(logoutAction());
-    navigate('/login');
     localStorage.removeItem('token');
+    navigate('/login');
   };
 
   return (

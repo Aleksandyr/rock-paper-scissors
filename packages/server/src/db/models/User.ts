@@ -6,7 +6,6 @@ import { Stats, StatsAttributes } from './Stats';
 import { UserInterface } from '../../types';
 interface UserCreationAttributes extends Optional<UserInterface, 'id'> {
   stats?: Optional<StatsAttributes, 'id'>;
-  statsId?: number;
 }
 
 @Table

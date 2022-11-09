@@ -1,7 +1,7 @@
 import { Action } from '@reduxjs/toolkit';
 import { put, all, takeEvery, call } from 'redux-saga/effects';
 
-import Api, { IServerReponse } from '../api/Api';
+import Api, { IGetUserResponse, ILogin, IRegisterUserResponse, IServerReponse, ISuccesfulResponse, IWinnerResponse } from '../api/Api';
 import {
   getMeAction,
   loginAction,
@@ -16,16 +16,16 @@ import {
   updateCookie,
   updateStats as updatedStatsSlice
 } from '../slices/UserSlice';
-import { IRegisterUserModel, ILoginUserModel, IStats, IFight } from '../types/IUserModel';
+import { IRegisterUser, IMove, ILoginUser } from '../types';
 
 export interface ActionWithPayload<T> extends Action {
   payload: T;
 }
 
-function* login(action: ActionWithPayload<IServerReponse>) {
+function* login(action: ActionWithPayload<ILoginUser>) {
   try {
-    const loginReponse: IServerReponse = yield call([Api, Api.login], action.payload);
-    if (loginReponse.successfulResponse) {
+    const loginReponse: IServerReponse & ISuccesfulResponse = yield call([Api, Api.login], action.payload);
+    if (loginReponse.success) {
       yield put(updateCookie(loginReponse))
       yield getMe();
     } else {
@@ -38,8 +38,8 @@ function* login(action: ActionWithPayload<IServerReponse>) {
 
 function* getMe() {
   try {
-    const getMeResponse: IServerReponse = yield call([Api, Api.getMe]);
-    if (getMeResponse.successfulResponse) {
+    const getMeResponse: IGetUserResponse & IServerReponse & ISuccesfulResponse = yield call([Api, Api.getMe]);
+    if (getMeResponse.success) {
       yield put(
         loginSlice({
           username: getMeResponse.username,
@@ -57,11 +57,19 @@ function* getMe() {
   }
 }
 
-function* register(action: ActionWithPayload<IRegisterUserModel>) {
+function* register(action: ActionWithPayload<IRegisterUser>) {
   try {
-    const registerResponse: IServerReponse = yield call([Api, Api.register], action.payload);
-    if (registerResponse.successfulResponse) {
-      yield login(action);
+    const registerResponse: IRegisterUserResponse & IServerReponse & ISuccesfulResponse 
+      = yield call([Api, Api.register], action.payload);
+    if (registerResponse.success) {
+      const loginUser: ActionWithPayload<ILoginUser> = {
+        type: '',
+        payload: {
+          username: registerResponse.username,
+          password: action.payload.password
+        }
+      }
+      yield login(loginUser);
     } else {
       yield put(loginError({ errorMsg: registerResponse.errorMsg }));
     }
@@ -79,9 +87,9 @@ function* logout() {
   }
 }
 
-function* updateStats(action: ActionWithPayload<IFight>) {
+function* updateStats(action: ActionWithPayload<IMove>) {
   try {
-    const stats: IFight = yield call([Api, Api.updateStats], action.payload);
+    const stats: IWinnerResponse = yield call([Api, Api.updateStats], action.payload);
     yield put(updatedStatsSlice(stats));
   } catch (e) {
     yield console.log(e);
