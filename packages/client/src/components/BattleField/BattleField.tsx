@@ -9,19 +9,18 @@ import {
   faHandScissors,
   faArrowRightArrowLeft,
   faEquals,
-  faA,
   faGreaterThan,
   faLessThan
 } from '@fortawesome/free-solid-svg-icons';
 
 import { CSSTransition } from 'react-transition-group';
 
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { selectUserStats } from '../../store/slices/UserSlice';
+import { useAppDispatch } from '../../store/hooks';
 import { updateStatsAction } from '../../store/saga/SagsActions';
+import { getRandomValue } from '../utils/utils';
+import { IFight } from '../../store/types/IUserModel';
 
 import './BattleField.scss';
-import { IFight } from '../../store/types/IUserModel';
 
 export enum UserMove {
   rock = 0,
@@ -119,9 +118,6 @@ const BattleField = () => {
 
   const userVictoryClasses = whoWins === 1 ? 'win' : whoWins === 2 ? 'loss' : 'draw';
   const computerVictoryClasses = whoWins === 2 ? 'win' : whoWins === 1 ? 'loss' : 'draw';
-  const getRandomValue = () => {
-    return Math.floor(Math.random() * 3);
-  };
 
   return (
     <>
@@ -139,7 +135,7 @@ const BattleField = () => {
           </div>
 
           <div className="result">
-            <FontAwesomeIcon className="result__icon" size="5x" icon={moveResultIcon()} />
+            <FontAwesomeIcon className={`result__icon ${userVictoryClasses}`} size="5x" icon={moveResultIcon()} />
           </div>
 
           <div className="user">

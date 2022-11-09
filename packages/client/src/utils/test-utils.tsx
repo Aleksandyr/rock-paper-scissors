@@ -3,6 +3,7 @@ import { render, RenderOptions } from '@testing-library/react';
 import { RootState, setupStore } from '../store/store';
 import { PropsWithChildren } from 'react';
 import { Provider } from 'react-redux';
+import userEvent from '@testing-library/user-event';
 
 
 interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
@@ -10,7 +11,7 @@ preloadedState?: PreloadedState<RootState>
 store?: Store
 }
   
-export function renderWithProviders(
+export const renderWithProviders = (
     ui: React.ReactElement,
     {
       preloadedState = {},
@@ -18,7 +19,7 @@ export function renderWithProviders(
       store = setupStore(preloadedState),
       ...renderOptions
     }: ExtendedRenderOptions = {}
-  ) {
+  ) => {
     // eslint-disable-next-line @typescript-eslint/ban-types
     function Wrapper({ children }: PropsWithChildren<{}>): JSX.Element {
       // eslint-disable-next-line react/react-in-jsx-scope
@@ -26,3 +27,9 @@ export function renderWithProviders(
     }
     return { store, ...render(ui, { wrapper: Wrapper, ...renderOptions }) }
 }
+
+export const clickAndGetMove = (container: HTMLElement, button: string, getElement: string) => {
+    const buttonElem = container.querySelector(`#${button}`);
+    userEvent.click(buttonElem);
+    return container.getElementsByClassName(getElement).item(0);
+  }

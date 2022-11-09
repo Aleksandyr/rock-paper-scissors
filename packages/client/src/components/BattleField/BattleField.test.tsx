@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-import BattleField, { UserMove } from './BattleField';
+import BattleField from './BattleField';
 import { act, render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { renderWithProviders } from '../../utils/test-utils';
+
+import { clickAndGetMove, renderWithProviders } from '../../utils/test-utils';
 
 const userMoves = ['rock', 'paper', 'scissors'];
+
+jest.mock('../utils/utils', () => ({
+  getRandomValue: () => 1
+}));
+
 describe('BattleField', () => {
   let container: HTMLElement;
   beforeAll(() => {
@@ -13,7 +18,8 @@ describe('BattleField', () => {
   });
 
   beforeEach(() => {
-    container = renderWithProviders(<BattleField />).container;
+    const component = renderWithProviders(<BattleField />);
+    container = component.container;
   });
 
   afterAll(() => {
@@ -24,19 +30,35 @@ describe('BattleField', () => {
     expect(container.getElementsByClassName('game-field').item(0)).toHaveClass('game-field')
   });
 
-  userMoves.forEach(move => {
-    test(`Should select ${move} when user click's ${move} button`, () => {
-      const button = container.querySelector(`#${move}`);
-      userEvent.click(button);
-      const userMove = container.getElementsByClassName('user--move').item(0);
+  userMoves.forEach((userMove: string) => {
+    test(`Should select ${userMove} when user click's ${userMove} button`, () => {
+      const moveIcon = clickAndGetMove(container, userMove, 'user--move');
   
       act(() => {
         jest.runAllTimers();
       });
   
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      expect(userMove.firstChild.firstChild).toHaveClass(`${move}__icon`);
+      expect(moveIcon.firstChild.firstChild).toHaveClass(`${userMove}__icon`);
     });
-  })
+  });
+
+  test(`Computer should choose paper when passed paper`, () => {
+    const moveIcon = clickAndGetMove(container, 'paper', 'computer--move');
+
+    act(() => {
+      jest.runAllTimers();
+    });
+    
+    expect(moveIcon.firstChild.firstChild).toHaveClass(`paper__icon`);
+  });
+
+  test(`User should win when scissors against paper`, () => {
+      const result = clickAndGetMove(container, 'scissors', 'result');
+  
+      act(() => {
+        jest.runAllTimers();
+      });
+      
+      expect(result.firstChild).toHaveClass('win')
+  });
 });
