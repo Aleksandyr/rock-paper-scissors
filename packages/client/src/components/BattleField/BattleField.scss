@@ -17,14 +17,25 @@
     margin-top: 3.2rem;
     margin-bottom: 3.2rem;
     height: 2rem;
+    transition: all 1s;
 
-    &.win {
-        color: var(--win-color);
+    &-text {
+        &.win {
+            color: var(--win-color);
+            opacity: 1;
+        }
+    
+        &.lose {
+            color: var(--lose-color);
+            opacity: 1;
+        }
+        
+        &.draw {
+            color: var(--lose-color);
+            opacity: 1;    
+        }
     }
 
-    &.lose {
-        color: var(--lose-color);
-    }
 }
 
 .players {
@@ -32,6 +43,8 @@
     justify-content: space-between;
     padding-top: 3.2rem;
     padding-left: 6.4rem;
+
+    transition: all 1s;
 }
 
 .computer--choice {
@@ -41,6 +54,10 @@
 
     &.lose {
         border: 3px solid var(--lose-color);
+    }
+    
+    &.draw {
+        border: 3px solid lightgray;
     }
 }
 
@@ -58,9 +75,8 @@
     
     border: 3px solid gray;
     border-radius: 2rem;
-    transition: all .5s;    
-    
-    // & > * {}
+    transition: all 1s;    
+    // opacity: 0;
 }
 
 .player-choice {
@@ -75,10 +91,17 @@
     &--choice {
         &.win {
             border: 3px solid var(--win-color);
+            opacity: 1;
         }
     
         &.lose {
             border: 3px solid var(--lose-color);
+            opacity: 1;
+        }
+          
+        &.draw {
+            border: 3px solid lightgray;
+            opacity: 1;
         }
     }
     

@@ -114,7 +114,7 @@ const BattleField = () => {
     ) : null;
   };
 
-  const youWonClass = whoWins === 1 ? 'win' : whoWins === 2 ? 'lose' : null;
+  const youWonClass = whoWins === 1 ? 'win' : whoWins === 2 ? 'lose' : 'draw';
   const getRandomValue = () => {
     return Math.floor(Math.random() * 3);
   };
@@ -122,9 +122,13 @@ const BattleField = () => {
   return (
     <>
       <div className="game-field">
-        <p className={`battle__info ${youWonClass}`}>{message}</p>
+        <p className={`battle__info`}>
+          <span className={`battle__info-text ${youWonClass}`}>
+            {message}
+          </span>
+        </p>
         <div className="players">
-          <div className={`computer--choice ${whoWins === 2 ? 'win' : whoWins === 1 ? 'lose' : null}` }>
+          <div className={`computer--choice ${whoWins === 2 ? 'win' : whoWins === 1 ? 'lose' : 'draw'}` }>
               {showEndResult && chooseAction(computerChoice)}
           </div>
           <div className='arrows'>
