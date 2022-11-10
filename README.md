@@ -11,6 +11,10 @@ Rock wins against scissors, paper wins against rock, and scissors wins against p
 1. run `yarn install` on root directory
 2. run `yarn start` 
 
+## How to run tests
+1. go to {rootFolder}/packages/client
+2. run `yarn test` 
+
 ## Authentication
 #### Initially there are five seeded users:
     1. username: User-1 | password: Pass-1
