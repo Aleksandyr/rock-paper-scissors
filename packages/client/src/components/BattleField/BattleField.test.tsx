@@ -4,10 +4,20 @@ import BattleField from './BattleField';
 import { act, render, screen } from '@testing-library/react';
 
 import { clickAndGetMove, renderWithProviders } from '../../utils/test-utils';
+import { setupStore } from '../../store/store';
+import { IWinner } from '../../store/types';
+import { move } from '../../store/slices/UserSlice';
+import { COMPUTER_MOVE_CLASS, 
+  PAPER, 
+  PAPER_ICON_CLASS, 
+  RESULT_ICON_CLASS, 
+  ROCK, 
+  SCISSORS, 
+  USER_MOVE_CLASS } from '../../utils/constants';
 
-const userMoves = ['rock', 'paper', 'scissors'];
+const userMoves = [ROCK, PAPER, SCISSORS];
 
-describe('BattleField', () => {
+describe('BattleField: UI', () => {
   let container: HTMLElement;
   beforeAll(() => {
     jest.useFakeTimers();
@@ -28,7 +38,7 @@ describe('BattleField', () => {
 
   userMoves.forEach((userMove: string) => {
     test(`Should select ${userMove} when user click's ${userMove} button`, () => {
-      const moveIcon = clickAndGetMove(container, userMove, 'user--move');
+      const moveIcon = clickAndGetMove(container, userMove, USER_MOVE_CLASS);
   
       act(() => {
         jest.runAllTimers();
@@ -38,23 +48,53 @@ describe('BattleField', () => {
     });
   });
 
-  test(`Computer should choose paper when passed paper`, () => {
-    const moveIcon = clickAndGetMove(container, 'paper', 'computer--move');
+  describe('BattleField: Store', () => {
+    test('User should win when faced user:rock to computer:scissors', () => {
+      const store = setupStore();
+      const makeAMove: IWinner = {
+        computerMove: 2,
+        winner: 1
+      };
 
-    act(() => {
-      jest.runAllTimers();
+      store.dispatch(move(makeAMove));
+
+      const container = renderWithProviders(<BattleField/>, { store }).container;
+      const resultIcon = clickAndGetMove(container, ROCK, RESULT_ICON_CLASS);
+      expect(resultIcon).toHaveClass('win');
     });
-    
-    expect(moveIcon.firstChild.firstChild).toHaveClass(`paper__icon`);
-  });
+ 
+    test('User should lose when faced user:paper to computer:scissors', () => {
+      const store = setupStore();
+      const makeAMove: IWinner = {
+        computerMove: 2,
+        winner: 2
+      };
 
-  // test(`User should win when scissors against paper`, () => {
-  //     const result = clickAndGetMove(container, 'scissors', 'result');
-  
-  //     act(() => {
-  //       jest.runAllTimers();
-  //     });
+      store.dispatch(move(makeAMove));
+
+      const container = renderWithProviders(<BattleField/>, { store }).container;
+      const resultIcon = clickAndGetMove(container, PAPER, RESULT_ICON_CLASS);
+      expect(resultIcon).toHaveClass('loss');
+    });
+
+    test(`Computer should choose paper when passed paper`, () => {
+      const store = setupStore();
+      const makeAMove: IWinner = {
+        computerMove: 1,
+        winner: 1
+      };
+
+      store.dispatch(move(makeAMove));
+
+      const container = renderWithProviders(<BattleField/>, { store }).container;
+      const computerMoveIcon = clickAndGetMove(container, ROCK, COMPUTER_MOVE_CLASS);
       
-  //     expect(result.firstChild).toHaveClass('win')
-  // });
+      act(() => {
+        jest.runAllTimers();
+      });
+
+      expect(computerMoveIcon.firstChild.firstChild).toHaveClass(PAPER_ICON_CLASS);
+    });
+  })
 });
+

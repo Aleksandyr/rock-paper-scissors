@@ -21,6 +21,7 @@ import { IMove } from '../../store/types';
 
 import './BattleField.scss';
 import { selectComputerMove, selectWinner } from '../../store/slices/UserSlice';
+import { COMPUTER_MOVE_CLASS, DRAW, LOSS, PAPER, PAPER_ICON_CLASS, RESULT_ICON_CLASS, ROCK, ROCK_ICON_CLASS, SCISSORS, SCISSORS_ICON_CLASS, USER_MOVE_CLASS, WIN } from '../../utils/constants';
 
 export enum UserMove {
   rock = 0,
@@ -87,12 +88,12 @@ const BattleField = () => {
     }
 
     return move === 0 ? (
-      <FontAwesomeIcon className="player--move rock__icon" icon={faHandFist} size="10x" />
+      <FontAwesomeIcon className={`player--move ${ROCK_ICON_CLASS}`} icon={faHandFist} size="10x" />
     ) : move === 1 ? (
-      <FontAwesomeIcon className="player--move paper__icon" icon={faHand} size="10x" />
+      <FontAwesomeIcon className={`player--move ${PAPER_ICON_CLASS}`} icon={faHand} size="10x" />
     ) : move === 2 ? (
       <FontAwesomeIcon
-        className="player--move scissors__icon"
+        className={`player--move ${SCISSORS_ICON_CLASS}`}
         icon={faHandScissors}
         size="10x"
         rotation={90}
@@ -113,14 +114,14 @@ const BattleField = () => {
     }
   };
 
-  const userVictoryClasses = winner === 1 ? 'win' : winner === 2 ? 'loss' : 'draw';
-  const computerVictoryClasses = winner === 2 ? 'win' : winner === 1 ? 'loss' : 'draw';
+  const userVictoryClasses = winner === 1 ? WIN : winner === 2 ? LOSS : DRAW;
+  const computerVictoryClasses = winner === 2 ? WIN : winner === 1 ? LOSS : DRAW;
 
   return (
     <>
       <div className="game-field">
         <div className="players">
-          <div className={`computer--move ${computerVictoryClasses}`}>
+          <div className={`${COMPUTER_MOVE_CLASS} ${computerVictoryClasses}`}>
             <CSSTransition
               nodeRef={computerTransitionRef}
               in={makeMove}
@@ -132,11 +133,11 @@ const BattleField = () => {
           </div>
 
           <div className="result">
-            <FontAwesomeIcon className={`result__icon ${userVictoryClasses}`} size="5x" icon={moveResultIcon()} />
+            <FontAwesomeIcon className={`${RESULT_ICON_CLASS} ${userVictoryClasses}`} size="5x" icon={moveResultIcon()} />
           </div>
 
           <div className="user">
-            <div className={`user--move ${userVictoryClasses}`}>
+            <div className={`${USER_MOVE_CLASS} ${userVictoryClasses}`}>
               <CSSTransition
                 nodeRef={userTransitionRef}
                 in={makeMove}
@@ -152,32 +153,31 @@ const BattleField = () => {
                 size="large"
                 onClick={onActionClick}
                 className="icon__button"
-                data-testid="rock"
-                id="rock"
+                id={`${ROCK}`}
                 disabled={disableActions}
               >
-                <FontAwesomeIcon className="rock__icon" icon={faHandFist} size="lg" />
+                <FontAwesomeIcon className={`${ROCK_ICON_CLASS}`} icon={faHandFist} size="lg" />
               </IconButton>
               <IconButton
                 color="primary"
                 size="large"
                 className="icon__button"
                 onClick={onActionClick}
-                id="paper"
+                id={`${PAPER}`}
                 disabled={disableActions}
               >
-                <FontAwesomeIcon className="paper__icon" icon={faHandPaper} size="lg" />
+                <FontAwesomeIcon className={`${PAPER_ICON_CLASS}`} icon={faHandPaper} size="lg" />
               </IconButton>
               <IconButton
                 color="primary"
                 size="large"
                 className="icon__button"
                 onClick={onActionClick}
-                id="scissors"
+                id={`${SCISSORS}`}
                 disabled={disableActions}
               >
                 <FontAwesomeIcon
-                  className="scissors__icon"
+                  className={`${SCISSORS_ICON_CLASS}`}
                   icon={faHandScissors}
                   size="lg"
                   rotation={90}
