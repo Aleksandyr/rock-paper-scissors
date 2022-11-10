@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import { UserInterface } from '.'
+import { UserInterface } from '.';
 
 declare global {
   namespace Express {
@@ -11,4 +11,6 @@ declare global {
   }
 }
 
-export interface RequestWithUser extends Request { user: Express.User }
+export interface RequestWithUser extends Request {
+  user: Express.User;
+}

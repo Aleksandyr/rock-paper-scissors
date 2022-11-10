@@ -32,12 +32,12 @@ const AuthForm = () => {
       return setIsSignUp(true);
     }
 
-    if(!isEmailValid()) {
-      setEmailError('Invalid emal')
+    if (!isEmailValid()) {
+      setEmailError('Invalid emal');
       return;
     }
 
-    if(isEmailValid()) {
+    if (isEmailValid()) {
       setEmailError('');
     }
 

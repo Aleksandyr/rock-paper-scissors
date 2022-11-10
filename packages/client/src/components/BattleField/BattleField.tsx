@@ -21,7 +21,20 @@ import { IMove } from '../../store/types';
 
 import './BattleField.scss';
 import { selectComputerMove, selectWinner } from '../../store/slices/UserSlice';
-import { COMPUTER_MOVE_CLASS, DRAW, LOSS, PAPER, PAPER_ICON_CLASS, RESULT_ICON_CLASS, ROCK, ROCK_ICON_CLASS, SCISSORS, SCISSORS_ICON_CLASS, USER_MOVE_CLASS, WIN } from '../../utils/constants';
+import {
+  COMPUTER_MOVE_CLASS,
+  DRAW,
+  LOSS,
+  PAPER,
+  PAPER_ICON_CLASS,
+  RESULT_ICON_CLASS,
+  ROCK,
+  ROCK_ICON_CLASS,
+  SCISSORS,
+  SCISSORS_ICON_CLASS,
+  USER_MOVE_CLASS,
+  WIN
+} from '../../utils/constants';
 
 export enum UserMove {
   rock = 0,
@@ -34,10 +47,10 @@ let initialLoad = true;
 const BattleField = () => {
   const [userMove, setUserMove] = useState(-1);
   const [makeMove, setMakeMove] = useState(false);
-  
+
   const [counter, setCounter] = useState(-1);
   const [disableActions, setDisableActions] = useState(false);
-  
+
   const computerTransitionRef = useRef(null);
   const userTransitionRef = useRef(null);
 
@@ -133,7 +146,11 @@ const BattleField = () => {
           </div>
 
           <div className="result">
-            <FontAwesomeIcon className={`${RESULT_ICON_CLASS} ${userVictoryClasses}`} size="5x" icon={moveResultIcon()} />
+            <FontAwesomeIcon
+              className={`${RESULT_ICON_CLASS} ${userVictoryClasses}`}
+              size="5x"
+              icon={moveResultIcon()}
+            />
           </div>
 
           <div className="user">

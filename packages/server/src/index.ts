@@ -10,7 +10,11 @@ import { Sequelize } from 'sequelize';
 (async () => {
   const sessionKey = process.env.SESSION_KEY || '44e257001e5e64b08ece15c828c00bae9de6aaf3';
   const SequelizeStore = connSessSeq(session.Store);
-  const dbSessions = new Sequelize({ logging: false, dialect: "sqlite", storage: "./session.sqlite" });
+  const dbSessions = new Sequelize({
+    logging: false,
+    dialect: 'sqlite',
+    storage: './session.sqlite'
+  });
 
   const store = new SequelizeStore({ db: dbSessions });
   await dbSessions.sync();

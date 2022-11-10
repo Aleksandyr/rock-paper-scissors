@@ -23,7 +23,7 @@ const strategy = new Strategy(async (username, password, done) => {
       return done(null, false, { message: "Password you've entered was invalid" });
     }
 
-    const user: Express.User = { id: reqUser.id, email: reqUser.email, username: reqUser.username }
+    const user: Express.User = { id: reqUser.id, email: reqUser.email, username: reqUser.username };
     return done(null, user);
   } catch (err) {
     return done(err);
@@ -37,10 +37,10 @@ passport.use(strategy);
 
 const withAuth =
   (req: Request, res: Response, next: NextFunction) =>
-    async (cb: (req: RequestWithUser, res: Response, next: NextFunction) => any) => {
-      if (!req.isAuthenticated())
-        return res.status(401).send('You must be logged in to use this endpoint');
-      return await cb(req, res, next);
-    };
+  async (cb: (req: RequestWithUser, res: Response, next: NextFunction) => any) => {
+    if (!req.isAuthenticated())
+      return res.status(401).send('You must be logged in to use this endpoint');
+    return await cb(req, res, next);
+  };
 
 export { passport, withAuth };

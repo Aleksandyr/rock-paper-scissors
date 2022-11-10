@@ -32,12 +32,12 @@ export const UserSlice = createSlice({
       state.loggedIn = false;
     },
     move: (state, action: PayloadAction<IWinner>) => {
-      state.computerMove = action.payload.computerMove
+      state.computerMove = action.payload.computerMove;
       state.winner = action.payload.winner;
     },
     updateCookie: (state, action: PayloadAction<ICookie>) => {
       state.cookie = action.payload.cookie;
-    },
+    }
   }
 });
 

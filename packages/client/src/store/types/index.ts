@@ -19,12 +19,12 @@ interface ICookie {
 }
 interface ILogin {
   username: string;
-  email: string
+  email: string;
 }
 
 interface IWinner {
-  computerMove: number
-  winner: Winner,
+  computerMove: number;
+  winner: Winner;
 }
 
 export type { IStats, IMove, Winner, ICookie, ILogin, IWinner };

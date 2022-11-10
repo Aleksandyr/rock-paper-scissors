@@ -11,22 +11,20 @@ import { getMeAction } from './store/saga/SagsActions';
 import './App.scss';
 import { selectCookieToken } from './store/slices/UserSlice';
 
-
 function App() {
   const dispatch = useAppDispatch();
   const cookie = useAppSelector(selectCookieToken);
   const navigate = useNavigate();
 
-
   useEffect(() => {
     const token = cookie || localStorage.getItem('token');
-    if(token) {
+    if (token) {
       dispatch(getMeAction());
       navigate('/game');
     }
 
     const localStorageToken = localStorage.getItem('token');
-    if(!localStorageToken) {
+    if (!localStorageToken) {
       localStorage.setItem('token', cookie);
     }
   }, [cookie]);

@@ -22,7 +22,7 @@ export interface IRegisterUserResponse extends ILogin {
 }
 
 export interface IWinnerResponse extends IWinner {
-  stats: IStats
+  stats: IStats;
 }
 export default class Api {
   private static async get(url: string) {
@@ -32,7 +32,7 @@ export default class Api {
     const data = isJson ? await response.json() : null;
     if (!response.ok) {
       const error = data && data.message;
-      throw new Error(error)
+      throw new Error(error);
     }
 
     return data;
@@ -52,7 +52,6 @@ export default class Api {
       body: body && JSON.stringify(body)
     });
 
- 
     const isJson = response.headers.get('content-type')?.includes('application/json');
     const data = isJson ? await response.json() : null;
 
@@ -60,12 +59,12 @@ export default class Api {
       const error = response.status === 401 ? 'Wrong password or username' : data && data.message;
       throw new Error(error);
     }
-    
+
     const cookie = response.headers.get('cookie')?.split('=');
     let token;
     if (cookie) {
       token = cookie[cookie.length - 1];
-      return {...data, cookie: token};
+      return { ...data, cookie: token };
     }
 
     return data;
@@ -89,6 +88,5 @@ export default class Api {
 
   static move(stats: IMove) {
     return Api.post('/users/stats', stats, 'PUT');
-
   }
 }

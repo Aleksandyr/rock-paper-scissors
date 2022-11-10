@@ -3,7 +3,7 @@ import { IErrorMessage } from '../api/Api';
 import { RootState } from '../store';
 
 const initialState: IErrorMessage = {
-    error: ''
+  error: ''
 };
 
 export const ErrorSlice = createSlice({

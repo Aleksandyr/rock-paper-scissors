@@ -18,15 +18,17 @@ const RESULT_ICON_CLASS = 'result__icon';
 const COMPUTER_MOVE_CLASS = 'computer--move';
 const USER_MOVE_CLASS = 'user--move';
 
-export { WIN, 
-    LOSS, 
-    DRAW, 
-    ROCK,
-    PAPER,
-    SCISSORS,
-    ROCK_ICON_CLASS, 
-    PAPER_ICON_CLASS, 
-    SCISSORS_ICON_CLASS, 
-    COMPUTER_MOVE_CLASS, 
-    USER_MOVE_CLASS, 
-    RESULT_ICON_CLASS };
+export {
+  WIN,
+  LOSS,
+  DRAW,
+  ROCK,
+  PAPER,
+  SCISSORS,
+  ROCK_ICON_CLASS,
+  PAPER_ICON_CLASS,
+  SCISSORS_ICON_CLASS,
+  COMPUTER_MOVE_CLASS,
+  USER_MOVE_CLASS,
+  RESULT_ICON_CLASS
+};

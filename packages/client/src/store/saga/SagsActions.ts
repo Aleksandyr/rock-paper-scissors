@@ -1,7 +1,7 @@
 import { createAction } from '@reduxjs/toolkit';
 
 import { ILoginUserRequest, IRegisterUserRequest } from '../api/Api';
-import { IMove  } from '../types';
+import { IMove } from '../types';
 
 const LOGIN_REQUEST = 'LOGIN_REQUEST';
 const LOGOUT_REQUEST = 'LOGOUT_REQUEST';

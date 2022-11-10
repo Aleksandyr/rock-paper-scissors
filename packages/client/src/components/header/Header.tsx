@@ -14,7 +14,7 @@ const Header = () => {
   const username = useAppSelector(selectUsername);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  
+
   const onLogout = () => {
     dispatch(logoutAction());
     localStorage.removeItem('token');

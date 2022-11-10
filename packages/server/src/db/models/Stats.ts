@@ -20,7 +20,8 @@ export interface StatsAttributes {
   draws: number;
 }
 
-interface StatsCreationAttributes extends Optional<StatsAttributes, 'id' | 'draws' | 'wins' | 'losses'> {
+interface StatsCreationAttributes
+  extends Optional<StatsAttributes, 'id' | 'draws' | 'wins' | 'losses'> {
   userId?: number;
 }
 

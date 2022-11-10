@@ -12,7 +12,7 @@ const rootReducer = combineReducers({
   user: UserReducer,
   stats: StatsReducer,
   error: ErrorSlice
-})
+});
 
 export const setupStore = (preloadedState?: PreloadedState<RootState>) => {
   const store = configureStore({
@@ -21,12 +21,11 @@ export const setupStore = (preloadedState?: PreloadedState<RootState>) => {
     middleware: (getDefaultMiddleware) => {
       return getDefaultMiddleware({ thunk: false }).prepend(sagaMiddleware);
     }
-  })
+  });
   sagaMiddleware.run(rootSaga);
-  
+
   return store;
 };
-
 
 export type RootState = ReturnType<typeof rootReducer>;
 export type AppStore = ReturnType<typeof setupStore>;

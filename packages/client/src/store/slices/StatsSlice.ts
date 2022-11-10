@@ -3,9 +3,9 @@ import { RootState } from '../store';
 import { IStats } from '../types';
 
 const initialState: IStats = {
-    wins: 0,
-    losses: 0,
-    draws: 0
+  wins: 0,
+  losses: 0,
+  draws: 0
 };
 
 export const StateSlice = createSlice({
