@@ -1,9 +1,9 @@
 # Rock Paper Scissors Game
 Rock-Paper-Scissors is a game played to settle disputes between two people. 
 
-The game is played with three possible hand signals that represent a rock, paper, and scissors. The rock is a closed fist; paper is a flat hand with fingers and thumb extended and the palm facing downward; and scissors is a fist with the index and middle fingers fully extended toward the opposing player.
+The game is played with three possible hand signals that represent a rock, paper, and scissors. The rock is a closed fist, paper is a flat hand with fingers and thumb extended and the palm facing downward, and scissors is a fist with the index and middle fingers fully extended toward the opposing player.
 
-Rock wins against scissors; paper wins against rock; and scissors wins against paper. If both players throw the same hand signal, it is considered a tie, and play resumes until there is a clear winner.
+Rock wins against scissors, paper wins against rock, and scissors wins against paper. If both players throw the same hand signal, it is considered a tie, and play resumes until there is a clear winner.
 
 ## Tech stack
 **`React`** | **`Typescript`** | **`Redux-Toolkit`** | **`Redux-saga`** | **`Express`** | **`Sqlite`**
