@@ -19,10 +19,15 @@ function App() {
 
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = cookie || localStorage.getItem('token');
     if(token) {
       dispatch(getMeAction());
-      navigate('/game')
+      navigate('/game');
+    }
+
+    const localStorageToken = localStorage.getItem('token');
+    if(!localStorageToken) {
+      localStorage.setItem('token', cookie);
     }
   }, [cookie]);
 

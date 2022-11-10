@@ -3,11 +3,15 @@ import createSagaMiddleware from 'redux-saga';
 import rootSaga from './saga/Sagas';
 
 import UserReducer from './slices/UserSlice';
+import StatsReducer from './slices/StatsSlice';
+import ErrorSlice from './slices/ErrorSlice';
 
 const sagaMiddleware = createSagaMiddleware();
 
 const rootReducer = combineReducers({
-  user: UserReducer
+  user: UserReducer,
+  stats: StatsReducer,
+  error: ErrorSlice
 })
 
 export const setupStore = (preloadedState?: PreloadedState<RootState>) => {

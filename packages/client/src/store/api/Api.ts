@@ -10,6 +10,11 @@ export interface ILogin {
   username: string;
   email: string
 }
+
+export interface IWinner {
+  computerMove: number
+  winner: Winner,
+}
 export interface IGetUserResponse extends ILogin {
   stats: IStats;
 }
@@ -19,9 +24,7 @@ export interface IRegisterUserResponse extends ILogin {
   stats: IStats;
 }
 
-export interface IWinnerResponse {
-  computerMove: number
-  winner: Winner,
+export interface IWinnerResponse extends IWinner {
   stats: IStats
 }
 export default class Api {

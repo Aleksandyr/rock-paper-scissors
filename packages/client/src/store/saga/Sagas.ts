@@ -1,7 +1,7 @@
 import { Action } from '@reduxjs/toolkit';
 import { put, all, takeEvery, call } from 'redux-saga/effects';
 
-import Api, { ICookie, IGetUserResponse, IRegisterUserResponse, IWinnerResponse } from '../api/Api';
+import Api, { ICookie, IGetUserResponse, IRegisterUserResponse, IWinner, IWinnerResponse } from '../api/Api';
 import {
   getMeAction,
   loginAction,
@@ -11,12 +11,13 @@ import {
 } from './SagsActions';
 import {
   login as loginSlice,
-  errorLog,
   logout as logoutSlice,
   updateCookie,
   move as moveSlice
 } from '../slices/UserSlice';
 import { IRegisterUser, IMove, ILoginUser } from '../types';
+import { clearStats, updateStats } from '../slices/StatsSlice';
+import { clearError, updateError } from '../slices/ErrorSlice';
 
 export interface ActionWithPayload<T> extends Action {
   payload: T;
@@ -27,8 +28,9 @@ function* login(action: ActionWithPayload<ILoginUser>) {
     const loginReponse: ICookie = yield call([Api, Api.login], action.payload);
       yield put(updateCookie(loginReponse))
       yield getMe();
-    } catch (e) {
-    yield put(errorLog({ error: e.toString() }));
+      yield put(clearError());
+    } catch (err) {
+    yield put(updateError({error: (err as Error).message}));
   }
 }
 
@@ -39,15 +41,17 @@ function* getMe() {
         loginSlice({
           username: getMeResponse.username,
           email: getMeResponse.email,
-          stats: {
-            wins: getMeResponse.stats.wins,
-            losses: getMeResponse.stats.losses,
-            draws: getMeResponse.stats.draws
-          }
         })
       );
-  } catch (e) {
-    yield console.log(e);
+      const stats = {
+        wins: getMeResponse.stats.wins,
+        losses: getMeResponse.stats.losses,
+        draws: getMeResponse.stats.draws
+      }
+      yield put(updateStats(stats));
+      yield put(clearError());
+  } catch (err) {
+    yield console.log((err as Error).message);
   }
 }
 
@@ -62,8 +66,9 @@ function* register(action: ActionWithPayload<IRegisterUser>) {
         }
       }
       yield login(loginUser);
-  } catch (errorMsg) {
-    yield put(errorLog({ error: errorMsg.toString() }));
+      yield put(clearError());
+  } catch (err) {
+    yield put(updateError({error: (err as Error).message}));
   }
 }
 
@@ -71,17 +76,24 @@ function* logout() {
   try {
     yield call([Api, Api.logout]);
     yield put(logoutSlice());
-  } catch (e) {
-    yield console.log(e);
+    yield put(clearStats());
+    yield put(clearError());
+  } catch (err) {
+    yield console.log((err as Error).message);
   }
 }
 
 function* move(action: ActionWithPayload<IMove>) {
   try {
-    const stats: IWinnerResponse = yield call([Api, Api.move], action.payload);
-    yield put(moveSlice(stats));
-  } catch (e) {
-    yield console.log(e);
+    const winner: IWinnerResponse = yield call([Api, Api.move], action.payload);
+    const moveResponse: IWinner = {
+      computerMove: winner.computerMove,
+      winner: winner.winner
+    }
+    yield put(moveSlice(moveResponse));
+    yield put(updateStats(winner.stats));
+  } catch (err) {
+    yield console.log((err as Error).message);
   }
 }
 

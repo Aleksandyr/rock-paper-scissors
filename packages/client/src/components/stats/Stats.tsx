@@ -4,10 +4,10 @@ import StatsItem from './StatsItem/StatsItem';
 
 import './Stats.scss';
 import { useAppSelector } from '../../store/hooks';
-import { selectUserStats } from '../../store/slices/UserSlice';
+import { selectStats } from '../../store/slices/StatsSlice';
 
 const Stats = () => {
-  const userStats = useAppSelector(selectUserStats);
+  const userStats = useAppSelector(selectStats);
 
   return (
     <div className="stats">
