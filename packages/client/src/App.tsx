@@ -3,9 +3,9 @@ import React, { useEffect } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 
 import Header from './components/Header/Header';
+import AuthForm from './components/AuthForm/AuthFrom';
 import Game from './components/Game/Game';
-import AuthForm from './components/AuthForm/AuthForm';
-import { useAppDispatch, useAppSelector } from './store/hooks';
+import { useAppDispatch } from './store/hooks';
 import { getMeAction } from './store/saga/SagsActions';
 
 import './App.scss';
