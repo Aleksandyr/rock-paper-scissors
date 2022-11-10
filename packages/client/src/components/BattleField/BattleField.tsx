@@ -20,7 +20,7 @@ import { moveAction } from '../../store/saga/SagsActions';
 import { IMove } from '../../store/types';
 
 import './BattleField.scss';
-import { selectComputerMove, selectWinner } from '../../store/slices/UserSlice';
+import { clearUserMove, selectComputerMove, selectWinner } from '../../store/slices/UserSlice';
 import {
   COMPUTER_MOVE_CLASS,
   DRAW,
@@ -35,6 +35,7 @@ import {
   USER_MOVE_CLASS,
   WIN
 } from '../../utils/constants';
+import { clearStats } from '../../store/slices/StatsSlice';
 
 export enum UserMove {
   rock = 0,
@@ -82,6 +83,7 @@ const BattleField = () => {
     setMakeMove(false);
     setCounter(1);
     setDisableActions(true);
+    dispatch(clearUserMove())
 
     setUserMove(Number(UserMove[evt.currentTarget.id]));
   };

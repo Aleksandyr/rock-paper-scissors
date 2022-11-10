@@ -35,13 +35,17 @@ export const UserSlice = createSlice({
       state.computerMove = action.payload.computerMove;
       state.winner = action.payload.winner;
     },
+    clearUserMove(state) {
+      state.computerMove = -1;
+      state.winner = -1;
+    },
     updateCookie: (state, action: PayloadAction<ICookie>) => {
       state.cookie = action.payload.cookie;
     }
   }
 });
 
-export const { login, logout, move, updateCookie } = UserSlice.actions;
+export const { login, logout, move, updateCookie, clearUserMove } = UserSlice.actions;
 export const selectUser = (state: RootState) => state.user;
 export const selectUsername = (state: RootState) => state.user.username;
 export const selectEmail = (state: RootState) => state.user.email;

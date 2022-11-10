@@ -84,7 +84,7 @@ describe('BattleField: UI', () => {
       expect(resultIcon).toHaveClass(LOSS);
     });
 
-    test(`Computer should choose paper when passed paper`, () => {
+    test(`Computer should choose paper when store sends paper`, () => {
       const store = setupStore();
       const makeAMove: IWinner = {
         computerMove: 1,
