@@ -17,16 +17,19 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = cookie || localStorage.getItem('token');
-    if (token) {
-      dispatch(getMeAction());
-      navigate('/game');
-    }
-
     const localStorageToken = localStorage.getItem('token');
     if (!localStorageToken) {
       localStorage.setItem('token', cookie);
     }
+
+    const token = cookie || localStorageToken;
+    if (token) {
+      dispatch(getMeAction());
+      navigate('/game');
+    } else {
+      navigate('/')
+    }
+
   }, [cookie]);
 
   return (

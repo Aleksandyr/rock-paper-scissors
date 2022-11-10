@@ -23,7 +23,7 @@ export interface ActionWithPayload<T> extends Action {
   payload: T;
 }
 
-function* login(action: ActionWithPayload<ILoginUserRequest>) {
+export function* login(action: ActionWithPayload<ILoginUserRequest>) {
   try {
     const loginReponse: ICookie = yield call([Api, Api.login], action.payload);
     yield put(updateCookie(loginReponse));

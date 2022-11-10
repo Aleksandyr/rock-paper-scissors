@@ -14,7 +14,6 @@ export const renderWithProviders = (
   ui: React.ReactElement,
   {
     preloadedState = {},
-    // Automatically create a store instance if no store was passed in
     store = setupStore(preloadedState),
     ...renderOptions
   }: ExtendedRenderOptions = {}
