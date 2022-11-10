@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ICookie, ILogin, IWinner } from '../api/Api';
+import { ICookie, ILogin, IWinner } from '../types';
 import { RootState } from '../store';
 
 interface IStore extends ILogin, ICookie, IWinner {

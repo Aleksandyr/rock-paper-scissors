@@ -1,9 +1,8 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { Button, FormControl, FormHelperText, TextField } from '@mui/material';
 
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { loginAction, registerAction } from '../../store/saga/SagsActions';
-import { selectCookieToken } from '../../store/slices/UserSlice';
 import { selectError } from '../../store/slices/ErrorSlice';
 
 import './AuthForm.scss';
@@ -12,7 +11,6 @@ const AuthForm = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const dispatch = useAppDispatch();
   const selectErrorMsg = useAppSelector(selectError);
-  const cookieToken = useAppSelector(selectCookieToken);
 
   const [inputValues, setInputValues] = useState({
     username: '',
@@ -20,12 +18,6 @@ const AuthForm = () => {
     confirmPassword: '',
     email: ''
   });
-
-  useEffect(() => {
-    // if (cookieToken) {
-    //   localStorage.setItem('token', cookieToken);
-    // }
-  }, [cookieToken])
 
   const onInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
     setInputValues({

@@ -14,17 +14,17 @@ interface IStats {
   draws: number;
 }
 
-
-interface ILoginUser {
+interface ICookie {
+  cookie?: string;
+}
+interface ILogin {
   username: string;
-  password: string;
+  email: string
 }
 
-interface IRegisterUser extends ILoginUser {
-  username: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
+interface IWinner {
+  computerMove: number
+  winner: Winner,
 }
 
-export type { IRegisterUser, ILoginUser, IStats, IMove, Winner };
+export type { IStats, IMove, Winner, ICookie, ILogin, IWinner };

@@ -1,7 +1,7 @@
 import { Action } from '@reduxjs/toolkit';
 import { put, all, takeEvery, call } from 'redux-saga/effects';
 
-import Api, { ICookie, IGetUserResponse, IRegisterUserResponse, IWinner, IWinnerResponse } from '../api/Api';
+import Api, { IGetUserResponse, ILoginUserRequest, IRegisterUserRequest, IRegisterUserResponse, IWinnerResponse } from '../api/Api';
 import {
   getMeAction,
   loginAction,
@@ -15,7 +15,7 @@ import {
   updateCookie,
   move as moveSlice
 } from '../slices/UserSlice';
-import { IRegisterUser, IMove, ILoginUser } from '../types';
+import { IMove, ICookie, IWinner } from '../types';
 import { clearStats, updateStats } from '../slices/StatsSlice';
 import { clearError, updateError } from '../slices/ErrorSlice';
 
@@ -23,7 +23,7 @@ export interface ActionWithPayload<T> extends Action {
   payload: T;
 }
 
-function* login(action: ActionWithPayload<ILoginUser>) {
+function* login(action: ActionWithPayload<ILoginUserRequest>) {
   try {
     const loginReponse: ICookie = yield call([Api, Api.login], action.payload);
       yield put(updateCookie(loginReponse))
@@ -55,10 +55,10 @@ function* getMe() {
   }
 }
 
-function* register(action: ActionWithPayload<IRegisterUser>) {
+function* register(action: ActionWithPayload<IRegisterUserRequest>) {
   try {
     const registerResponse: IRegisterUserResponse = yield call([Api, Api.register], action.payload);
-      const loginUser: ActionWithPayload<ILoginUser> = {
+      const loginUser: ActionWithPayload<ILoginUserRequest> = {
         type: '',
         payload: {
           username: registerResponse.username,

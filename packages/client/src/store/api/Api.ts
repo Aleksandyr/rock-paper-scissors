@@ -1,19 +1,16 @@
-import { IMove, ILoginUser, IRegisterUser, IStats, Winner } from '../types';
+import { IMove, IStats, ILogin, IWinner } from '../types';
 
 export interface IErrorMessage {
   error: string;
 }
-export interface ICookie {
-  cookie?: string;
-}
-export interface ILogin {
+export interface ILoginUserRequest {
   username: string;
-  email: string
+  password: string;
 }
 
-export interface IWinner {
-  computerMove: number
-  winner: Winner,
+export interface IRegisterUserRequest extends ILogin {
+  password: string;
+  confirmPassword: string;
 }
 export interface IGetUserResponse extends ILogin {
   stats: IStats;
@@ -43,7 +40,7 @@ export default class Api {
 
   private static async post(
     url: string,
-    body: IRegisterUser | ILoginUser | IMove | null,
+    body: IRegisterUserRequest | ILoginUserRequest | IMove | null,
     method = 'POST'
   ) {
     const response = await fetch(url, {
@@ -74,11 +71,11 @@ export default class Api {
     return data;
   }
 
-  static login(user: ILoginUser) {
+  static login(user: ILoginUserRequest) {
     return Api.post(`/auth/login`, user);
   }
 
-  static register(user: IRegisterUser) {
+  static register(user: IRegisterUserRequest) {
     return Api.post(`/auth/register`, user);
   }
 
