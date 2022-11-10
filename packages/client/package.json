@@ -7,7 +7,7 @@
     "start": "react-scripts start",
     "test:debug": "react-scripts --inspect-brk test --runInBand --no-cache",
     "build": "react-scripts build && eslint \"src/**/*.{ts,tsx}\"",
-    "test": "react-scripts test",
+    "test": "react-scripts test --watchAll",
     "eject": "react-scripts eject",
     "lint": "eslint .",
     "lint:fix": "eslint --fix"
