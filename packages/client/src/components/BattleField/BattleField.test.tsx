@@ -139,36 +139,36 @@ describe('BattleField: Store', () => {
   });
 });
 
-// describe('BattleField Integration', () => {
-//   let container: HTMLElement;
-//   beforeAll(() => {
-//     jest.useFakeTimers();
-//     container = renderWithProviders(<BattleField />).container;
-//   });
+describe('BattleField Integration', () => {
+  let container: HTMLElement;
+  beforeAll(() => {
+    jest.useFakeTimers();
+    container = renderWithProviders(<BattleField />).container;
+  });
 
-//   afterAll(() => {
-//     jest.useRealTimers();
-//   });
+  afterAll(() => {
+    jest.useRealTimers();
+  });
 
-//   test('Should lose if server sends you lost', async () => {
-//     sinon.stub(Api, 'move').callsFake((move: IMove) => {
-//       return Promise.resolve({
-//         computerMove: 1,
-//         winner: 2,
-//         stats: { draws: 0, wins: 0, losses: 1 }
-//       });
-//     });
+  test('Should lose if server sends you lost', async () => {
+    sinon.stub(Api, 'move').callsFake((move: IMove) => {
+      return Promise.resolve({
+        computerMove: 1,
+        winner: 2,
+        stats: { draws: 0, wins: 0, losses: 1 }
+      });
+    });
 
-//     const buttonElem = container.querySelector(`#${ROCK}`);
+    const buttonElem = container.querySelector(`#${ROCK}`);
 
-//     await userEvent.click(buttonElem);
+    await userEvent.click(buttonElem);
 
-//     const resultIcon = container.getElementsByClassName(RESULT_ICON_CLASS).item(0);
+    const resultIcon = container.getElementsByClassName(RESULT_ICON_CLASS).item(0);
 
-//     await act(async () => {
-//       jest.runAllTimers();
-//     });
+    await act(async () => {
+      jest.runAllTimers();
+    });
 
-//     expect(resultIcon).toHaveClass(LOSS);
-//   });
-// });
+    expect(resultIcon).toHaveClass(LOSS);
+  });
+});
