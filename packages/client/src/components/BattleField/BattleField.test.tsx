@@ -103,15 +103,14 @@ describe('BattleField: UI', () => {
       expect(computerMoveIcon.firstChild.firstChild).toHaveClass(PAPER_ICON_CLASS);
     });
   });
-
 });
 
 describe('BattleField Integration', () => {
   let container: HTMLElement;
-  beforeAll(() => { 
+  beforeAll(() => {
     jest.useFakeTimers();
     container = renderWithProviders(<BattleField />).container;
-  })
+  });
 
   afterAll(() => {
     jest.useRealTimers();
@@ -119,15 +118,19 @@ describe('BattleField Integration', () => {
 
   test('Should lose if server sends you lost', async () => {
     sinon.stub(Api, 'move').callsFake((move: IMove) => {
-      return Promise.resolve({computerMove: 1, winner: 2, stats: {draws: 0, wins: 0, losses: 1}});
+      return Promise.resolve({
+        computerMove: 1,
+        winner: 2,
+        stats: { draws: 0, wins: 0, losses: 1 }
+      });
     });
-   
+
     const buttonElem = container.querySelector(`#${ROCK}`);
-    
+
     await userEvent.click(buttonElem);
-    
+
     const resultIcon = container.getElementsByClassName(RESULT_ICON_CLASS).item(0);
-    
+
     await act(async () => {
       jest.runAllTimers();
     });

@@ -128,7 +128,8 @@ const BattleField = () => {
   };
 
   const userVictoryClasses = winner === 1 ? WIN : winner === 2 ? LOSS : winner === 0 ? DRAW : '';
-  const computerVictoryClasses = winner === 2 ? WIN : winner === 1 ? LOSS : winner === 0 ? DRAW : '';
+  const computerVictoryClasses =
+    winner === 2 ? WIN : winner === 1 ? LOSS : winner === 0 ? DRAW : '';
 
   return (
     <>

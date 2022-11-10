@@ -27,9 +27,8 @@ function App() {
       dispatch(getMeAction());
       navigate('/game');
     } else {
-      navigate('/')
+      navigate('/');
     }
-
   }, [cookie]);
 
   return (
