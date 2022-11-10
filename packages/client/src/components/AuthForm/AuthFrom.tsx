@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { loginAction, registerAction } from '../../store/saga/SagsActions';
 import { clearError, selectError } from '../../store/slices/ErrorSlice';
 
-import './authForm.scss';
+import './AuthForm.scss';
 
 const AuthForm = () => {
   const [isSignUp, setIsSignUp] = useState(false);
