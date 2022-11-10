@@ -18,14 +18,14 @@ const Header = () => {
 
   useEffect(() => {
     if(!cookie) {
-      navigate('/login');
+      navigate('/');
     }
   }, [cookie])
   
   const onLogout = () => {
     dispatch(logoutAction());
     localStorage.removeItem('token');
-    navigate('/login');
+    navigate('/');
   };
 
   return (

@@ -1,12 +1,12 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { Button, FormControl, FormHelperText, TextField } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { loginAction, registerAction } from '../../store/saga/SagsActions';
 import { selectCookieToken, selectUserErrorMsg } from '../../store/slices/UserSlice';
 
-import './AuthForm.scss';
-import { useNavigate } from 'react-router-dom';
+import './authForm.scss';
 
 const AuthForm = () => {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -25,7 +25,7 @@ const AuthForm = () => {
   useEffect(() => {
     if (cookieToken) {
       localStorage.setItem('token', cookieToken);
-      navigate('/');
+      navigate('/game');
     }
   }, [cookieToken])
 

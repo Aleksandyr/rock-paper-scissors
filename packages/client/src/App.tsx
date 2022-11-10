@@ -35,8 +35,8 @@ function App() {
       <Header />
       <div className="body">
         <Routes>
-           <Route path="/" element={<Game />} />
-          <Route path="/login" element={<AuthForm />} />
+           <Route path="/game" element={<Game />} />
+          <Route path="/" element={<AuthForm />} />
         </Routes>
       </div>
     </div>
