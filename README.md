@@ -1,49 +1,11 @@
 # Rock Paper Scissors Game
-Rock-Paper-Scissors is a game played to settle disputes between two people. 
+#### This repository serves as a commit history for [game-rock-paper-scissors](https://github.com/Aleksandyr/game-rock-paper-scissors)
 
-The game is played with three possible hand signals that represent a rock, paper, and scissors. The rock is a closed fist, paper is a flat hand with fingers and thumb extended and the palm facing downward, and scissors is a fist with the index and middle fingers fully extended toward the opposing player.
+### **_NOTE:_**  Please do refer to the repo linked above if you want to test the game.
 
-Rock wins against scissors, paper wins against rock, and scissors wins against paper. If both players throw the same hand signal, it is considered a tie, and play resumes until there is a clear winner.
+#### If you still want to browse the development history, please make it here.
 
-## Tech stack
-**`React`** | **`Typescript`** | **`Redux-Toolkit`** | **`Redux-saga`** | **`Express`** | **`Sqlite`**
-## How to run
-1. run `yarn install` on root directory
-2. run `yarn start` 
+The reason. Somehow all references in the FE app were broken and I coulnd't fix them.
 
-## How to run tests
-1. go to {rootFolder}/packages/client
-2. run `yarn test` 
-
-## Authentication
-#### Initially there are five seeded users:
-    1. username: User-1 | password: Pass-1
-    2. username: User-2 | password: Pass-2
-    3. username: User-3 | password: Pass-3
-    4. username: User-4 | password: Pass-4
-    5. username: User-5 | password: Pass-5
-    
-**_NOTE:_**  You can choose playing with them or create your own account.
-
-
-## Tests
-- [ ] Battle Field:
-    - [x] Ui
-        - [X] Check if the component is rendered
-        - [x] Should select {rock, paper, scissors} when user click's {rock, paper, scissors}
-    - [x] Redux store
-        - [x] User should win when faced user:rock to computer:scissors
-        - [x] User should lose when faced user:paper to computer:scissors
-        - [x] Computer should choose paper when store sends paper
-    - [x] Integration
-        - [x] Check result if server sends that you lost.
-- [ ] Auth Form:
-    - [X] Redux-saga
-        - [x] Login update token with action call
-        - [x] Login update call with mocked API call
-## Tests TODO
-- [ ] Test all server endpoints 
-- [ ] Test all redux-saga generator funcs
-- [ ] Test all state responses
-- [ ] Test all React components
-- [ ] Integration - test all user/computer interactions
+![Screenshot](./screenshots/screenshot.png)
+![Screenshot](./screenshots/screenshot1.png)
