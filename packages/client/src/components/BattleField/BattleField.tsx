@@ -83,7 +83,7 @@ const BattleField = () => {
     setMakeMove(false);
     setCounter(1);
     setDisableActions(true);
-    dispatch(clearUserMove())
+    dispatch(clearUserMove());
 
     setUserMove(Number(UserMove[evt.currentTarget.id]));
   };

@@ -26,8 +26,7 @@ export const renderWithProviders = (
   return { store, ...render(ui, { wrapper: Wrapper, ...renderOptions }) };
 };
 
-export const clickAndGetMove = (container: HTMLElement, button: string, getElement: string) => {
+export const clickOnButton = (container: HTMLElement, button: string) => {
   const buttonElem = container.querySelector(`#${button}`);
   userEvent.click(buttonElem);
-  return container.getElementsByClassName(getElement).item(0);
 };
