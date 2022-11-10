@@ -49,7 +49,6 @@ function* getMe() {
         draws: getMeResponse.stats.draws
       }
       yield put(updateStats(stats));
-      yield put(clearError());
   } catch (err) {
     yield console.log((err as Error).message);
   }

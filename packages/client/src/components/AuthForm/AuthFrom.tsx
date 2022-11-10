@@ -3,7 +3,7 @@ import { Button, FormControl, FormHelperText, TextField } from '@mui/material';
 
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { loginAction, registerAction } from '../../store/saga/SagsActions';
-import { selectError } from '../../store/slices/ErrorSlice';
+import { clearError, selectError } from '../../store/slices/ErrorSlice';
 
 import './AuthForm.scss';
 
@@ -11,6 +11,7 @@ const AuthForm = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const dispatch = useAppDispatch();
   const selectErrorMsg = useAppSelector(selectError);
+  const [emailError, setEmailError] = useState('');
 
   const [inputValues, setInputValues] = useState({
     username: '',
@@ -31,10 +32,20 @@ const AuthForm = () => {
       return setIsSignUp(true);
     }
 
+    if(!isEmailValid()) {
+      setEmailError('Invalid emal')
+      return;
+    }
+
+    if(isEmailValid()) {
+      setEmailError('');
+    }
+
     if (!allFieldsAreFilled()) {
       return;
     }
 
+    dispatch(clearError());
     dispatch(
       registerAction({
         username: inputValues.username,
@@ -69,6 +80,7 @@ const AuthForm = () => {
     });
   };
 
+  const isEmailValid = () => inputValues.email.includes('@');
   const allFieldsAreFilled = () => {
     const loginValidation = inputValues.username.length > 0 && inputValues.password.length > 0;
     return !isSignUp
@@ -79,8 +91,8 @@ const AuthForm = () => {
   return (
     <div className="form-wrapper">
       <form action="" className="form">
-        <FormControl error={selectErrorMsg?.length > 0}>
-          <FormHelperText>{selectErrorMsg}</FormHelperText>
+        <FormControl error={selectErrorMsg?.length > 0 || !isEmailValid()}>
+          <FormHelperText>{emailError || selectErrorMsg}</FormHelperText>
           <div className="form__inputs">
             <TextField
               required
@@ -100,7 +112,7 @@ const AuthForm = () => {
               <>
                 <TextField
                   required
-                  error={inputValues.email.length < 3}
+                  error={!isEmailValid()}
                   id="standard-required"
                   label="Email"
                   placeholder="example@domain.com"
