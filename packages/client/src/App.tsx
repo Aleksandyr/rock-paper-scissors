@@ -5,38 +5,34 @@ import { Route, Routes, useNavigate } from 'react-router-dom';
 import Header from './components/Header/Header';
 import AuthForm from './components/AuthForm/AuthFrom';
 import Game from './components/Game/Game';
-import { useAppDispatch } from './store/hooks';
+import { useAppDispatch, useAppSelector } from './store/hooks';
 import { getMeAction } from './store/saga/SagsActions';
 
 import './App.scss';
+import { selectCookieToken } from './store/slices/UserSlice';
 
-let initialLoad = true;
 
 function App() {
   const dispatch = useAppDispatch();
+  const cookie = useAppSelector(selectCookieToken);
   const navigate = useNavigate();
 
+
   useEffect(() => {
-    if (initialLoad) {
-      initialLoad = false;
-      return;
-    }
-
-    dispatch(getMeAction());
-
     const token = localStorage.getItem('token');
     if(token) {
-      navigate('/');
+      dispatch(getMeAction());
+      navigate('/game')
     }
-  }, []);
+  }, [cookie]);
 
   return (
     <div className="App">
       <Header />
       <div className="body">
         <Routes>
-           <Route path="/game" element={<Game />} />
           <Route path="/" element={<AuthForm />} />
+          <Route path="/game" element={<Game />} />
         </Routes>
       </div>
     </div>

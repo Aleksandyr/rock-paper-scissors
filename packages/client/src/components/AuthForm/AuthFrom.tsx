@@ -1,19 +1,17 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { Button, FormControl, FormHelperText, TextField } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { loginAction, registerAction } from '../../store/saga/SagsActions';
 import { selectCookieToken, selectUserErrorMsg } from '../../store/slices/UserSlice';
 
-import './authForm.scss';
+import './AuthForm.scss';
 
 const AuthForm = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const dispatch = useAppDispatch();
   const selectErrorMsg = useAppSelector(selectUserErrorMsg);
   const cookieToken = useAppSelector(selectCookieToken);
-  const navigate = useNavigate();
 
   const [inputValues, setInputValues] = useState({
     username: '',
@@ -25,7 +23,6 @@ const AuthForm = () => {
   useEffect(() => {
     if (cookieToken) {
       localStorage.setItem('token', cookieToken);
-      navigate('/game');
     }
   }, [cookieToken])
 
@@ -69,6 +66,8 @@ const AuthForm = () => {
     dispatch(loginAction({ username: inputValues.username, password: inputValues.password }));
     clearOnSubmit();
   };
+
+  // navigate('/game');
 
   const clearOnSubmit = () => {
     setInputValues({
